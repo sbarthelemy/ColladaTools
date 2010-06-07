@@ -1,0 +1,58 @@
+	    SUMMARY OF THE HDF5 CONFIGURATION
+	    =================================
+
+General Information:
+-------------------
+		   HDF5 Version: 1.8.3
+		  Configured on: Wed May 13 12:54:08 CDT 2009
+		  Configured by: hdftest@jam
+		 Configure mode: production
+		    Host system: i686-pc-linux-gnu
+	      Uname information: Linux jam 2.6.18-128.1.6.el5xen #1 SMP Wed Apr 1 10:38:05 EDT 2009 i686 i686 i386 GNU/Linux
+		       Byte sex: little-endian
+		      Libraries: 
+	     Installation point: /home/hdftest/snapshots-hdf5_1_8/TestDir/jam/hdf5
+
+Compiling Options:
+------------------
+               Compilation Mode: production
+                     C Compiler: /usr/bin/gcc (gcc-4.1.2)
+	       CFLAGS/H5_CFLAGS: /-std=c99 -pedantic -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -Wno-long-long -Wfloat-equal -Wmissing-format-attribute -Wmissing-noreturn -Wpacked -Wdisabled-optimization -Wformat=2 -Wunreachable-code -Wendif-labels -Wdeclaration-after-statement -Wold-style-definition -Winvalid-pch -Wvariadic-macros -Wnonnull -Winit-self -Wmissing-include-dirs -Wswitch-default -Wswitch-enum -Wunused-macros -Wunsafe-loop-optimizations -Wc++-compat -Wvolatile-register-var -O -fomit-frame-pointer -finline-functions
+           CPPFLAGS/H5_CPPFLAGS: -I/home/packages/szip/static/encoder/Linux2.6-gcc/include -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_POSIX_SOURCE -D_BSD_SOURCE /  -DNDEBUG -UH5_DEBUG_API
+               Shared Libraries: no
+               Static Libraries: yes
+  Statically Linked Executables: no
+		Extra libraries:  -L/home/packages/szip/static/encoder/Linux2.6-gcc/lib  -lsz -lz -lm 
+		       Archiver: ar
+			 Ranlib: ranlib
+	      Debugged Packages: 
+		    API Tracing: no
+
+Languages:
+----------
+                        Fortran: yes
+               Fortran Compiler: g95
+                  Fortran Flags: -I.  
+                            C++: yes
+                   C++ Compiler: g++
+                      C++ Flags: 
+
+Features:
+---------
+                  Parallel HDF5: no
+             High Level library: yes
+                   Threadsafety: no
+            Default API Mapping: v18
+ With Deprecated Public Symbols: yes
+         I/O filters (external): deflate(zlib),szip(encoder)
+         I/O filters (internal): shuffle,fletcher32,nbit,scaleoffset
+                            MPE: no
+                     Direct VFD: no
+                        dmalloc: no
+Clear file buffers before write: yes
+           Using memory checker: no
+         Function Stack Tracing: no
+                           GPFS: no
+      Strict File Format Checks: no
+   Optimization Instrumentation: no
+ Linux Large File Support (LFS): yes

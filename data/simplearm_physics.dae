@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA version="1.4.0" xmlns="http://www.collada.org/2005/11/COLLADASchema">
+        <asset>
+                <created>2005-06-27T21:00:00Z</created>
+                <modified>2005-06-27T21:00:00Z</modified>
+                <unit meter="1" name="meter" />
+        </asset>
+        <library_geometries>
+                <geometry id="frame_arrows">
+                        <mesh>
+                                <source id="frame_arrows_position">
+                                        <float_array count="12" id="frame_arrows_position_array">0. 0. 0. 0.08 0. 0. 0. 0.08 0. 0. 0. 0.08</float_array>
+                                        <technique_common>
+                                                <accessor count="4" source="#frame_arrows_position_array" stride="3">
+                                                        <param name="X" type="float" />
+                                                        <param name="Y" type="float" />
+                                                        <param name="Z" type="float" />
+                                                </accessor>
+                                        </technique_common>
+                                </source>
+                                <vertices id="frame_arrows_vertices">
+                                        <input semantic="POSITION" source="#frame_arrows_position" />
+                                </vertices>
+                                <lines count="3">
+                                        <input semantic="VERTEX" source="#frame_arrows_vertices" />
+                                        <p>0 1   0 2   0 3</p>
+                                </lines>
+                        </mesh>
+                </geometry>
+                <geometry id="box">
+                        <mesh>
+                                <source id="box_position">
+                                        <float_array count="24" id="box_position_array">1 1 -1 1 -1 -1 -1 -1 -1 -1 1 -1 1 1 1 1 -1 1 -1 -1 1 -1 1 1</float_array>
+                                        <technique_common>
+                                                <accessor count="8" source="#box_position_array" stride="3">
+                                                        <param name="X" type="float" />
+                                                        <param name="Y" type="float" />
+                                                        <param name="Z" type="float" />
+                                                </accessor>
+                                        </technique_common>
+                                </source>
+                                <vertices id="box_vertices">
+                                        <input semantic="POSITION" source="#box_position" />
+                                </vertices>
+                                <triangles count="12">
+                                        <input semantic="VERTEX" source="#box_vertices" />
+                                        <p>0 1 2 2 3 0 4 7 6 6 5 4 0 4 5 5 1 0 1 5 6 6 2 1 2 6 7 7 3 2 4 0 3 3 7 4</p>
+                                </triangles>
+                        </mesh>
+                </geometry>
+        </library_geometries>
+        <library_visual_scenes>
+                <visual_scene id="myscene">
+                        <asset>
+                                <up_axis>Y_UP</up_axis>
+                        </asset>
+                        <node id="Arm" name="Arm">
+                                <translate sid="translate">0 0 0</translate>
+                                <rotate sid="rotateZ">0 0 1 0.00000</rotate>
+                                <rotate sid="rotateY">0 1 0 0.00000</rotate>
+                                <rotate sid="rotateX">1 0 0 0.00000</rotate>
+                                <instance_geometry url="#frame_arrows" />
+                                <node>
+                                        <matrix sid="matrix"> 1.    0.    0.    0.    0.    1.    0.    0.25  0.    0.    1.    0.    0.
+  0.    0.    1.  </matrix>
+                                        <instance_geometry url="#frame_arrows" />
+                                        <node>
+                                                <scale>0.025 0.25 0.025</scale>
+                                                <instance_geometry url="#box" />
+                                        </node>
+                                </node>
+                                <node id="ElbowBaseFrame" name="ElbowBaseFrame">
+                                        <matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.5  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+                                        <instance_geometry url="#frame_arrows" />
+                                        <node id="ForeArm" name="ForeArm">
+                                                <translate sid="translate">0 0 0</translate>
+                                                <rotate sid="rotateZ">0 0 1 0.00000</rotate>
+                                                <rotate sid="rotateY">0 1 0 0.00000</rotate>
+                                                <rotate sid="rotateX">1 0 0 0.00000</rotate>
+                                                <instance_geometry url="#frame_arrows" />
+                                                <node>
+                                                        <matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.2  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+                                                        <instance_geometry url="#frame_arrows" />
+                                                        <node>
+                                                                <scale>0.02 0.2 0.02</scale>
+                                                                <instance_geometry url="#box" />
+                                                        </node>
+                                                </node>
+                                                <node id="WristBaseFrame" name="WristBaseFrame">
+                                                        <matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.4  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+                                                        <instance_geometry url="#frame_arrows" />
+                                                        <node id="Hand" name="Hand">
+                                                                <translate sid="translate">0 0 0</translate>
+                                                                <rotate sid="rotateZ">0 0 1 0.00000</rotate>
+                                                                <rotate sid="rotateY">0 1 0 0.00000</rotate>
+                                                                <rotate sid="rotateX">1 0 0 0.00000</rotate>
+                                                                <instance_geometry url="#frame_arrows" />
+                                                                <node>
+                                                                        <matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.1  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+                                                                        <instance_geometry url="#frame_arrows" />
+                                                                        <node>
+                                                                                <scale>0.01 0.1 0.01</scale>
+                                                                                <instance_geometry url="#box" />
+                                                                        </node>
+                                                                </node>
+                                                                <node id="EndEffector" name="EndEffector">
+                                                                        <matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.2  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+                                                                        <instance_geometry url="#frame_arrows" />
+                                                                </node>
+                                                        </node>
+                                                </node>
+                                        </node>
+                                </node>
+                        </node>
+                </visual_scene>
+        </library_visual_scenes>
+        <scene>
+                <instance_visual_scene url="#myscene" />
+        </scene>
+</COLLADA>

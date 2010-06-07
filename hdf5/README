@@ -1,0 +1,74 @@
+
+This directory contains the static binary distribution of HDF5 1.8.3
+that was compiled on Linux 2.6 i686. 
+
+It includes the C, C++, and F90 APIs, built using the following
+compilers:  gcc 4.1.2, g95, g++
+
+For information on compilers and settings used to build these HDF5 
+libraries, please refer to:
+
+    ./lib/libhdf5.settings
+
+The contents of this directory are:
+
+    COPYING     - Copyright notice
+    README      - This file
+    RELEASE.txt - Detailed information regarding this release
+    bin/        - Directory containing HDF5 pre-compiled utilities
+    include/    - Directory containing HDF5 include files
+    lib/        - Directory containing HDF5 libraries and settings
+
+These binaries were built with, but do NOT include the ZLIB and
+SZIP (version 2.0 or 2.1, Encoder ENABLED) external libraries.
+
+As a convenience we provide the ZLIB and SZIP binaries and source
+code on the HDF ftp server at:
+
+    ftp://ftp.hdfgroup.org/lib-external/
+
+The official ZLIB and SZIP pages are at:
+
+    ZLIB: http://www.zlib.net/
+    SZIP: http://hdfgroup.org/doc_resource/SZIP/
+
+We provide scripts for compiling applications with the HDF5 libraries:
+
+    bin/h5cc  - for C
+    bin/h5fc  - for F90 (if Fortran 90 is included with the binaries)
+    bin/h5c++ - for C++ (if C++ is included with the binaries)
+
+After you have installed the binaries to their final destination,
+you can use these scripts (h5cc, h5fc, h5c++) to compile.  However,
+you must first:
+
+  1) Run ./h5redeploy to change site specific paths in the scripts.
+
+  2) Edit each script and update the paths for the external libraries
+     in LDFLAGS and CPPFLAGS.
+
+You may also need to change other variables in the scripts, depending
+on how things are set up on your system.  Here are some of the variables
+to check:
+
+  prefix      - Path to the HDF5 top level installation directory
+  CCBASE      - Name of the alternative C compiler
+  CLINKERBASE - Name of the alternative linker
+  LIBS        - Libraries your application will link with
+
+
+If there is a need to build from source, the HDF5 source code can be
+found on the HDF ftp server in:
+
+    ftp://ftp.hdfgroup.org/HDF5/current/src/
+
+Refer to the INSTALL files in the ./release_docs/ directory of the
+HDF5 source code for instructions on building:
+
+    ftp://ftp.hdfgroup.org/HDF5/current/src/unpacked/release_docs/
+
+For information and help, see:
+
+    http://www.hdfgroup.org/services/support.html
+
+

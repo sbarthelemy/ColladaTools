@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA version="1.4.0" xmlns="http://www.collada.org/2005/11/COLLADASchema">
+        <asset>
+                <created>2005-06-27T21:00:00Z</created>
+                <modified>2005-06-27T21:00:00Z</modified>
+                <unit meter="1" name="meter" />
+        </asset>
+        <library_geometries>
+                <geometry id="frame_arrows">
+                        <mesh>
+                                <source id="frame_arrows_position">
+                                        <float_array count="12" id="frame_arrows_position_array">0. 0. 0. 0.08 0. 0. 0. 0.08 0. 0. 0. 0.08</float_array>
+                                        <technique_common>
+                                                <accessor count="4" source="#frame_arrows_position_array" stride="3">
+                                                        <param name="X" type="float" />
+                                                        <param name="Y" type="float" />
+                                                        <param name="Z" type="float" />
+                                                </accessor>
+                                        </technique_common>
+                                </source>
+                                <vertices id="frame_arrows_vertices">
+                                        <input semantic="POSITION" source="#frame_arrows_position" />
+                                </vertices>
+                                <lines count="3">
+                                        <input semantic="VERTEX" source="#frame_arrows_vertices" />
+                                        <p>0 1   0 2   0 3</p>
+                                </lines>
+                        </mesh>
+                </geometry>
+                <geometry id="box">
+                        <mesh>
+                                <source id="box_position">
+                                        <float_array count="24" id="box_position_array">1 1 -1 1 -1 -1 -1 -1 -1 -1 1 -1 1 1 1 1 -1 1 -1 -1 1 -1 1 1</float_array>
+                                        <technique_common>
+                                                <accessor count="8" source="#box_position_array" stride="3">
+                                                        <param name="X" type="float" />
+                                                        <param name="Y" type="float" />
+                                                        <param name="Z" type="float" />
+                                                </accessor>
+                                        </technique_common>
+                                </source>
+                                <vertices id="box_vertices">
+                                        <input semantic="POSITION" source="#box_position" />
+                                </vertices>
+                                <triangles count="12">
+                                        <input semantic="VERTEX" source="#box_vertices" />
+                                        <p>0 1 2 2 3 0 4 7 6 6 5 4 0 4 5 5 1 0 1 5 6 6 2 1 2 6 7 7 3 2 4 0 3 3 7 4</p>
+                                </triangles>
+                        </mesh>
+                </geometry>
+        </library_geometries>
+        <library_visual_scenes>
+                <visual_scene id="myscene">
+                        <asset>
+                                <up_axis>Y_UP</up_axis>
+                        </asset>
+                        <node id="Arm" name="Arm">
+                                <translate sid="translate">0 0 0</translate>
+                                <rotate sid="rotateZ">0 0 1 0.00000</rotate>
+                                <rotate sid="rotateY">0 1 0 0.00000</rotate>
+                                <rotate sid="rotateX">1 0 0 0.00000</rotate>
+                                <instance_geometry url="#frame_arrows" />
+                                <node>
+                                        <matrix sid="matrix"> 1.    0.    0.    0.    0.    1.    0.    0.25  0.    0.    1.    0.    0.
+  0.    0.    1.  </matrix>
+                                        <instance_geometry url="#frame_arrows" />
+                                        <node>
+                                                <scale>0.025 0.25 0.025</scale>
+                                                <instance_geometry url="#box" />
+                                        </node>
+                                </node>
+                                <node id="ElbowBaseFrame" name="ElbowBaseFrame">
+                                        <matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.5  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+                                        <instance_geometry url="#frame_arrows" />
+                                        <node id="ForeArm" name="ForeArm">
+                                                <translate sid="translate">0 0 0</translate>
+                                                <rotate sid="rotateZ">0 0 1 0.00000</rotate>
+                                                <rotate sid="rotateY">0 1 0 0.00000</rotate>
+                                                <rotate sid="rotateX">1 0 0 0.00000</rotate>
+                                                <instance_geometry url="#frame_arrows" />
+                                                <node>
+                                                        <matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.2  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+                                                        <instance_geometry url="#frame_arrows" />
+                                                        <node>
+                                                                <scale>0.02 0.2 0.02</scale>
+                                                                <instance_geometry url="#box" />
+                                                        </node>
+                                                </node>
+                                                <node id="WristBaseFrame" name="WristBaseFrame">
+                                                        <matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.4  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+                                                        <instance_geometry url="#frame_arrows" />
+                                                        <node id="Hand" name="Hand">
+                                                                <translate sid="translate">0 0 0</translate>
+                                                                <rotate sid="rotateZ">0 0 1 0.00000</rotate>
+                                                                <rotate sid="rotateY">0 1 0 0.00000</rotate>
+                                                                <rotate sid="rotateX">1 0 0 0.00000</rotate>
+                                                                <instance_geometry url="#frame_arrows" />
+                                                                <node>
+                                                                        <matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.1  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+                                                                        <instance_geometry url="#frame_arrows" />
+                                                                        <node>
+                                                                                <scale>0.01 0.1 0.01</scale>
+                                                                                <instance_geometry url="#box" />
+                                                                        </node>
+                                                                </node>
+                                                                <node id="EndEffector" name="EndEffector">
+                                                                        <matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.2  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+                                                                        <instance_geometry url="#frame_arrows" />
+                                                                </node>
+                                                        </node>
+                                                </node>
+                                        </node>
+                                </node>
+                        </node>
+                </visual_scene>
+        </library_visual_scenes>
+        <scene>
+                <instance_visual_scene url="#myscene" />
+        </scene>
+        <library_animations>
+                <animation id="Elbow-translate">
+                        <source id="Elbow-translate-input">
+                                <float_array count="99" id="Elbow-translate-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-translate-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Elbow-translate-interpolation">
+                                <Name_array count="297" id="Elbow-translate-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-translate-interpolation-array" stride="3">
+                                                <param name="X" type="Name" />
+                                                <param name="Y" type="Name" />
+                                                <param name="Z" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Elbow-translate-output">
+                                <float_array count="297" id="Elbow-translate-output-array"> 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-translate-output-array" stride="3">
+                                                <param name="X" type="float" />
+                                                <param name="Y" type="float" />
+                                                <param name="Z" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Elbow-translate-sampler">
+                                <input semantic="INPUT" source="#Elbow-translate-input" />
+                                <input semantic="OUTPUT" source="#Elbow-translate-output" />
+                                <input semantic="INTERPOLATION" source="#Elbow-translate-interpolation" />
+                        </sampler>
+                        <channel source="#Elbow-translate-sampler" target="ForeArm/translate" />
+                </animation>
+                <animation id="Elbow-rotateZ">
+                        <source id="Elbow-rotateZ-input">
+                                <float_array count="99" id="Elbow-rotateZ-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-rotateZ-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Elbow-rotateZ-interpolation">
+                                <Name_array count="99" id="Elbow-rotateZ-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-rotateZ-interpolation-array" stride="1">
+                                                <param name="ANGLE" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Elbow-rotateZ-output">
+                                <float_array count="99" id="Elbow-rotateZ-output-array"> 0.         -0.00255413 -0.00768907 -0.01545738 -0.02593587 -0.03922272
+ -0.05543327 -0.07469369 -0.09713248 -0.1228691  -0.15199998 -0.18458245
+ -0.22061801 -0.26003736 -0.30269013 -0.34834188 -0.39667958 -0.44732463
+ -0.49985044 -0.55380084 -0.60870572 -0.66409194 -0.71948885 -0.77442906
+ -0.82844553 -0.88106598 -0.93180596 -0.98016095 -1.02559846 -1.0675508
+ -1.10540964 -1.13852424 -1.16620665 -1.18774812 -1.20245151 -1.20968038
+ -1.20891485 -1.19978829 -1.18207256 -1.15560005 -1.12014946 -1.07534344
+ -1.02059353 -0.95510528 -0.87795138 -0.78823935 -0.68544402 -0.57003947
+ -0.44460298 -0.31533967 -0.19303141 -0.09111818 -0.01861457  0.03623913
+  0.10686422  0.20306853  0.31557217  0.43142546  0.54021486  0.63563072
+  0.71463078  0.77611457  0.81993738  0.8463276   0.85557488  0.84787612
+  0.82327219  0.78163869  0.7227128   0.64615857  0.5517126   0.43952731
+  0.31092726  0.16971806  0.02333451 -0.11833968 -0.24697526 -0.35861329
+ -0.45308912 -0.53214173 -0.59799271 -0.65267659 -0.69785536 -0.73484224
+ -0.7646799  -0.78821375 -0.80614706 -0.81907987 -0.82753629 -0.83198418
+ -0.83284942 -0.83052585 -0.82538104 -0.81775724 -0.80796675 -0.79628184
+ -0.78292104 -0.76803651 -0.75170859</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-rotateZ-output-array" stride="1">
+                                                <param name="ANGLE" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Elbow-rotateZ-sampler">
+                                <input semantic="INPUT" source="#Elbow-rotateZ-input" />
+                                <input semantic="OUTPUT" source="#Elbow-rotateZ-output" />
+                                <input semantic="INTERPOLATION" source="#Elbow-rotateZ-interpolation" />
+                        </sampler>
+                        <channel source="#Elbow-rotateZ-sampler" target="ForeArm/rotateZ.ANGLE" />
+                </animation>
+                <animation id="Elbow-rotateY">
+                        <source id="Elbow-rotateY-input">
+                                <float_array count="99" id="Elbow-rotateY-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-rotateY-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Elbow-rotateY-interpolation">
+                                <Name_array count="99" id="Elbow-rotateY-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-rotateY-interpolation-array" stride="1">
+                                                <param name="ANGLE" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Elbow-rotateY-output">
+                                <float_array count="99" id="Elbow-rotateY-output-array">-0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0.</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-rotateY-output-array" stride="1">
+                                                <param name="ANGLE" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Elbow-rotateY-sampler">
+                                <input semantic="INPUT" source="#Elbow-rotateY-input" />
+                                <input semantic="OUTPUT" source="#Elbow-rotateY-output" />
+                                <input semantic="INTERPOLATION" source="#Elbow-rotateY-interpolation" />
+                        </sampler>
+                        <channel source="#Elbow-rotateY-sampler" target="ForeArm/rotateY.ANGLE" />
+                </animation>
+                <animation id="Elbow-rotateX">
+                        <source id="Elbow-rotateX-input">
+                                <float_array count="99" id="Elbow-rotateX-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-rotateX-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Elbow-rotateX-interpolation">
+                                <Name_array count="99" id="Elbow-rotateX-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-rotateX-interpolation-array" stride="1">
+                                                <param name="ANGLE" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Elbow-rotateX-output">
+                                <float_array count="99" id="Elbow-rotateX-output-array"> 0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0.</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Elbow-rotateX-output-array" stride="1">
+                                                <param name="ANGLE" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Elbow-rotateX-sampler">
+                                <input semantic="INPUT" source="#Elbow-rotateX-input" />
+                                <input semantic="OUTPUT" source="#Elbow-rotateX-output" />
+                                <input semantic="INTERPOLATION" source="#Elbow-rotateX-interpolation" />
+                        </sampler>
+                        <channel source="#Elbow-rotateX-sampler" target="ForeArm/rotateX.ANGLE" />
+                </animation>
+                <animation id="Shoulder-translate">
+                        <source id="Shoulder-translate-input">
+                                <float_array count="99" id="Shoulder-translate-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-translate-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Shoulder-translate-interpolation">
+                                <Name_array count="297" id="Shoulder-translate-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-translate-interpolation-array" stride="3">
+                                                <param name="X" type="Name" />
+                                                <param name="Y" type="Name" />
+                                                <param name="Z" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Shoulder-translate-output">
+                                <float_array count="297" id="Shoulder-translate-output-array"> 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-translate-output-array" stride="3">
+                                                <param name="X" type="float" />
+                                                <param name="Y" type="float" />
+                                                <param name="Z" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Shoulder-translate-sampler">
+                                <input semantic="INPUT" source="#Shoulder-translate-input" />
+                                <input semantic="OUTPUT" source="#Shoulder-translate-output" />
+                                <input semantic="INTERPOLATION" source="#Shoulder-translate-interpolation" />
+                        </sampler>
+                        <channel source="#Shoulder-translate-sampler" target="Arm/translate" />
+                </animation>
+                <animation id="Shoulder-rotateZ">
+                        <source id="Shoulder-rotateZ-input">
+                                <float_array count="99" id="Shoulder-rotateZ-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-rotateZ-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Shoulder-rotateZ-interpolation">
+                                <Name_array count="99" id="Shoulder-rotateZ-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-rotateZ-interpolation-array" stride="1">
+                                                <param name="ANGLE" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Shoulder-rotateZ-output">
+                                <float_array count="99" id="Shoulder-rotateZ-output-array"> 0.785       0.78680791  0.79043231  0.79589011  0.80320617  0.81241256
+  0.82354742  0.83665337  0.85177524  0.86895722  0.88823918  0.9096526
+  0.93321637  0.95893316  0.98678715  1.01674386  1.04875221  1.08274877
+  1.11866321  1.1564238   1.19596225  1.23721703  1.28013514  1.32467232
+  1.37079195  1.41846283  1.46765595  1.51834018  1.57047688  1.62401311
+  1.67887351  1.73495051  1.79209361  1.85009875  1.90870049  1.96757117
+  2.0263311   2.08457019  2.14187366  2.19783856  2.25207166  2.30417062
+  2.35369962  2.40017142  2.4430467   2.48176251  2.51580916  2.54488794
+  2.56918878  2.58976733  2.60876817  2.62898285  2.65256681  2.67899772
+  2.7050811   2.73039216  2.75696916  2.78736219  2.823501    2.86632802
+  2.91598676  2.97214696  3.03425824  3.10170748 -3.10927694 -3.03283483
+ -2.95255885 -2.86873667 -2.78152592 -2.69095347 -2.59694188 -2.49940366
+ -2.39847685 -2.29495971 -2.19074866 -2.08860664 -1.99102977 -1.89937172
+ -1.81392875 -1.734414   -1.66032638 -1.59114337 -1.52639853 -1.46570038
+ -1.40872733 -1.35521528 -1.30494505 -1.25773154 -1.21341499 -1.17185401
+ -1.13292003 -1.09649279 -1.06245694 -1.0306997  -1.00111003 -0.97357967
+ -0.94800607 -0.92429694 -0.90237484</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-rotateZ-output-array" stride="1">
+                                                <param name="ANGLE" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Shoulder-rotateZ-sampler">
+                                <input semantic="INPUT" source="#Shoulder-rotateZ-input" />
+                                <input semantic="OUTPUT" source="#Shoulder-rotateZ-output" />
+                                <input semantic="INTERPOLATION" source="#Shoulder-rotateZ-interpolation" />
+                        </sampler>
+                        <channel source="#Shoulder-rotateZ-sampler" target="Arm/rotateZ.ANGLE" />
+                </animation>
+                <animation id="Shoulder-rotateY">
+                        <source id="Shoulder-rotateY-input">
+                                <float_array count="99" id="Shoulder-rotateY-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-rotateY-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Shoulder-rotateY-interpolation">
+                                <Name_array count="99" id="Shoulder-rotateY-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-rotateY-interpolation-array" stride="1">
+                                                <param name="ANGLE" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Shoulder-rotateY-output">
+                                <float_array count="99" id="Shoulder-rotateY-output-array">-0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0.</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-rotateY-output-array" stride="1">
+                                                <param name="ANGLE" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Shoulder-rotateY-sampler">
+                                <input semantic="INPUT" source="#Shoulder-rotateY-input" />
+                                <input semantic="OUTPUT" source="#Shoulder-rotateY-output" />
+                                <input semantic="INTERPOLATION" source="#Shoulder-rotateY-interpolation" />
+                        </sampler>
+                        <channel source="#Shoulder-rotateY-sampler" target="Arm/rotateY.ANGLE" />
+                </animation>
+                <animation id="Shoulder-rotateX">
+                        <source id="Shoulder-rotateX-input">
+                                <float_array count="99" id="Shoulder-rotateX-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-rotateX-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Shoulder-rotateX-interpolation">
+                                <Name_array count="99" id="Shoulder-rotateX-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-rotateX-interpolation-array" stride="1">
+                                                <param name="ANGLE" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Shoulder-rotateX-output">
+                                <float_array count="99" id="Shoulder-rotateX-output-array"> 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0.</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Shoulder-rotateX-output-array" stride="1">
+                                                <param name="ANGLE" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Shoulder-rotateX-sampler">
+                                <input semantic="INPUT" source="#Shoulder-rotateX-input" />
+                                <input semantic="OUTPUT" source="#Shoulder-rotateX-output" />
+                                <input semantic="INTERPOLATION" source="#Shoulder-rotateX-interpolation" />
+                        </sampler>
+                        <channel source="#Shoulder-rotateX-sampler" target="Arm/rotateX.ANGLE" />
+                </animation>
+                <animation id="Wrist-translate">
+                        <source id="Wrist-translate-input">
+                                <float_array count="99" id="Wrist-translate-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-translate-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Wrist-translate-interpolation">
+                                <Name_array count="297" id="Wrist-translate-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-translate-interpolation-array" stride="3">
+                                                <param name="X" type="Name" />
+                                                <param name="Y" type="Name" />
+                                                <param name="Z" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Wrist-translate-output">
+                                <float_array count="297" id="Wrist-translate-output-array"> 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-translate-output-array" stride="3">
+                                                <param name="X" type="float" />
+                                                <param name="Y" type="float" />
+                                                <param name="Z" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Wrist-translate-sampler">
+                                <input semantic="INPUT" source="#Wrist-translate-input" />
+                                <input semantic="OUTPUT" source="#Wrist-translate-output" />
+                                <input semantic="INTERPOLATION" source="#Wrist-translate-interpolation" />
+                        </sampler>
+                        <channel source="#Wrist-translate-sampler" target="Hand/translate" />
+                </animation>
+                <animation id="Wrist-rotateZ">
+                        <source id="Wrist-rotateZ-input">
+                                <float_array count="99" id="Wrist-rotateZ-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-rotateZ-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Wrist-rotateZ-interpolation">
+                                <Name_array count="99" id="Wrist-rotateZ-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-rotateZ-interpolation-array" stride="1">
+                                                <param name="ANGLE" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Wrist-rotateZ-output">
+                                <float_array count="99" id="Wrist-rotateZ-output-array">  0.00000000e+00   1.40401256e-03   4.25574224e-03   8.64132744e-03
+   1.46865416e-02   2.25519507e-02   3.24252613e-02   4.45098953e-02
+   5.90087583e-02   7.61023807e-02   9.59212799e-02   1.18513691e-01
+   1.43811704e-01   1.71600942e-01   2.01500233e-01   2.32957257e-01
+   2.65263094e-01   2.97583805e-01   3.29002564e-01   3.58563486e-01
+   3.85309095e-01   4.08306345e-01   4.26659615e-01   4.39511768e-01
+   4.46035765e-01   4.45419697e-01   4.36847997e-01   4.19481591e-01
+   3.92440219e-01   3.54791558e-01   3.05554518e-01   2.43728393e-01
+   1.68365087e-01   7.87058339e-02  -2.56005734e-02  -1.44206900e-01
+  -2.75769741e-01  -4.17775989e-01  -5.66622763e-01  -7.17950732e-01
+  -8.67058229e-01  -1.00918318e+00  -1.13955755e+00  -1.25326919e+00
+  -1.34500470e+00  -1.40871222e+00  -1.43717312e+00  -1.42145938e+00
+  -1.35034683e+00  -1.21002907e+00  -9.84733200e-01  -6.58627137e-01
+  -2.24377064e-01   2.68193766e-01   6.96224172e-01   1.01753500e+00
+   1.24132909e+00   1.38344197e+00   1.45920289e+00   1.48213189e+00
+   1.46359472e+00   1.41306868e+00   1.33858689e+00   1.24710080e+00
+   1.14470330e+00   1.03673300e+00   9.27787699e-01   8.21665747e-01
+   7.21249323e-01   6.28337095e-01   5.43406111e-01   4.65227674e-01
+   3.90246714e-01   3.11928660e-01   2.21274252e-01   1.10214247e-01
+  -2.38948348e-02  -1.77552683e-01  -3.44117391e-01  -5.16967112e-01
+  -6.91160999e-01  -8.63713830e-01  -1.03315497e+00  -1.19895601e+00
+  -1.36109341e+00  -1.51978269e+00  -1.67533822e+00  -1.82810800e+00
+  -1.97844804e+00  -2.12671541e+00  -2.27326831e+00  -2.41846572e+00
+  -2.56266224e+00  -2.70619432e+00  -2.84935664e+00  -2.99237068e+00
+  -3.13535336e+00   3.00488672e+00   2.86210112e+00</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-rotateZ-output-array" stride="1">
+                                                <param name="ANGLE" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Wrist-rotateZ-sampler">
+                                <input semantic="INPUT" source="#Wrist-rotateZ-input" />
+                                <input semantic="OUTPUT" source="#Wrist-rotateZ-output" />
+                                <input semantic="INTERPOLATION" source="#Wrist-rotateZ-interpolation" />
+                        </sampler>
+                        <channel source="#Wrist-rotateZ-sampler" target="Hand/rotateZ.ANGLE" />
+                </animation>
+                <animation id="Wrist-rotateY">
+                        <source id="Wrist-rotateY-input">
+                                <float_array count="99" id="Wrist-rotateY-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-rotateY-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Wrist-rotateY-interpolation">
+                                <Name_array count="99" id="Wrist-rotateY-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-rotateY-interpolation-array" stride="1">
+                                                <param name="ANGLE" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Wrist-rotateY-output">
+                                <float_array count="99" id="Wrist-rotateY-output-array">-0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0.</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-rotateY-output-array" stride="1">
+                                                <param name="ANGLE" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Wrist-rotateY-sampler">
+                                <input semantic="INPUT" source="#Wrist-rotateY-input" />
+                                <input semantic="OUTPUT" source="#Wrist-rotateY-output" />
+                                <input semantic="INTERPOLATION" source="#Wrist-rotateY-interpolation" />
+                        </sampler>
+                        <channel source="#Wrist-rotateY-sampler" target="Hand/rotateY.ANGLE" />
+                </animation>
+                <animation id="Wrist-rotateX">
+                        <source id="Wrist-rotateX-input">
+                                <float_array count="99" id="Wrist-rotateX-input-array"> 0.    0.01  0.02  0.03  0.04  0.05  0.06  0.07  0.08  0.09  0.1   0.11
+  0.12  0.13  0.14  0.15  0.16  0.17  0.18  0.19  0.2   0.21  0.22  0.23
+  0.24  0.25  0.26  0.27  0.28  0.29  0.3   0.31  0.32  0.33  0.34  0.35
+  0.36  0.37  0.38  0.39  0.4   0.41  0.42  0.43  0.44  0.45  0.46  0.47
+  0.48  0.49  0.5   0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59
+  0.6   0.61  0.62  0.63  0.64  0.65  0.66  0.67  0.68  0.69  0.7   0.71
+  0.72  0.73  0.74  0.75  0.76  0.77  0.78  0.79  0.8   0.81  0.82  0.83
+  0.84  0.85  0.86  0.87  0.88  0.89  0.9   0.91  0.92  0.93  0.94  0.95
+  0.96  0.97  0.98</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-rotateX-input-array" stride="1">
+                                                <param name="TIME" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Wrist-rotateX-interpolation">
+                                <Name_array count="99" id="Wrist-rotateX-interpolation-array">STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP STEP
+ STEP STEP STEP STEP STEP STEP STEP STEP STEP</Name_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-rotateX-interpolation-array" stride="1">
+                                                <param name="ANGLE" type="Name" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <source id="Wrist-rotateX-output">
+                                <float_array count="99" id="Wrist-rotateX-output-array"> 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0. -0. -0.
+ -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+  0.  0.  0.  0. -0. -0. -0. -0. -0. -0. -0. -0. -0. -0.  0.  0.  0.  0.
+  0.  0.  0.  0.  0.  0.  0.  0.  0.</float_array>
+                                <technique_common>
+                                        <accessor count="99" source="#Wrist-rotateX-output-array" stride="1">
+                                                <param name="ANGLE" type="float" />
+                                        </accessor>
+                                </technique_common>
+                        </source>
+                        <sampler id="Wrist-rotateX-sampler">
+                                <input semantic="INPUT" source="#Wrist-rotateX-input" />
+                                <input semantic="OUTPUT" source="#Wrist-rotateX-output" />
+                                <input semantic="INTERPOLATION" source="#Wrist-rotateX-interpolation" />
+                        </sampler>
+                        <channel source="#Wrist-rotateX-sampler" target="Hand/rotateX.ANGLE" />
+                </animation>
+        </library_animations>
+</COLLADA>
