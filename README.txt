@@ -2,7 +2,7 @@
 FiltreCollada
 =============
 
-FiltreCollada est une batterie de filtres et d'outils pour le traitement des fichier Collada
+FiltreCollada est une batterie de filtres et d'outils pour le traitement des fichiers Collada
 
 
 Installation
@@ -13,8 +13,8 @@ Pour Ubuntu
 
 Pré-requis::
 
-    sudo apt-get install cmake
-    sudo apt-get install libcollada14dom2.1 \
+    sudo aptitude install cmake
+    sudo aptitude install libcollada14dom2.1 \
     libboost-dev libxml2-dev
 
 Construction::
@@ -25,6 +25,10 @@ Construction::
     cmake ..
     make
 
+Pour Mac os X
+-----------------
+
+ne compile pas à cause de libboost
 
 Contenu
 =======
@@ -55,7 +59,7 @@ Utilisation
 Test de cohérence
 -------------------------
 
-Le test de cohérence est appelé grace à la commande : 
+Le test de cohérence est appelé grâce à la commande : 
 
 bin/coherencytest *.dae
 
@@ -70,14 +74,15 @@ Le filtre dae est appelé avec certaines options qui lui permettent de définir 
 	-noanim		supprime les librairie : library_animations
 	-nophys		supprime les librairie : library_physics et toutes les instances de la géometrie qui lui sont liées.
 	-noinfo 	supprime le noeud asset
-	-o 			spécifie le nom du fichier de sortie 
+	-o 		spécifie le nom du fichier de sortie 
 	
 exemple : daeFilter exemple.dae -o exemple-new.dae -nophys -noanim
 
 Transformation d'une trajectoire HDF5 en animation collada
 -----------------------------------------------------------
 
-L'executable h5toAnim prend en argument un fichier HDF5 contenant une trajectoire, le chemin du HDF5 vers la trajectoire (/ pour root), ainsi qu'un fichier collada, et intègre l'animation au fichier collada.
+L'executable h5toAnim prend en argument un fichier HDF5 contenant une trajectoire, le chemin du HDF5 vers la trajectoire à l'intérieur du fichier
+(/ pour root), ainsi qu'un fichier collada, et intègre l'animation au fichier collada.
 
 exemple : h5toAnim data/exemple.h5 / data/exemple.dae
 

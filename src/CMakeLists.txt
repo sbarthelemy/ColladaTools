@@ -8,7 +8,7 @@ SET(HDF5_LIBRARIES
 FIND_PACKAGE(ZLIB)
 
 include_directories(${HDF5_INCLUDE_DIRS})
-
+message(STATUS ${Boost_LIBRARIES})
 add_library(
     avreader
     avreader.cpp
@@ -25,12 +25,12 @@ target_link_libraries(
     ${ZLIB_LIBRARIES}
 )
 
-FIND_PACKAGE(Boost COMPONENTS program_options)
+FIND_PACKAGE(Boost 1.38.0 COMPONENTS program_options filesystem)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(
 	${COLLADA_INCLUDE_DIR}
 	${COLLADA_INCLUDE_DIR}/1.4
-	${LIBXML_INCLUDE_DIR}
+	${LIBXML2_INCLUDE_DIR}
 )
 
 add_executable(
