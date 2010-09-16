@@ -1,5 +1,3 @@
-// RTNet C++ includes
-
 #include <math.h>
 #include "daeFilter.h"
 
@@ -267,7 +265,7 @@ int main(int argc, char **argv )
     }
 
 
-	char * file;	// Input files
+	char *file;	// Input files
 	char *file_out;	// Output filenames
 	std::vector<const char *> elements;
 	

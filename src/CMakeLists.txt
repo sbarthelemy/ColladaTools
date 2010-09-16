@@ -25,14 +25,16 @@ target_link_libraries(
     ${ZLIB_LIBRARIES}
 )
 
-FIND_PACKAGE(Boost 1.38.0 COMPONENTS program_options filesystem)
-INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+FIND_PACKAGE(Boost 1.40.0 COMPONENTS system filesystem)
+FIND_PACKAGE(LibXml2 REQUIRED)
+INCLUDE_DIRECTORIES(
+	${Boost_INCLUDE_DIR}
+	${LIBXML2_INCLUDE_DIR}
+)
 INCLUDE_DIRECTORIES(
 	${COLLADA_INCLUDE_DIR}
 	${COLLADA_INCLUDE_DIR}/1.4
-	${LIBXML2_INCLUDE_DIR}
 )
-
 add_executable(
     h5toAnim
     h5toAnim.cpp
@@ -41,7 +43,8 @@ target_link_libraries(
     h5toAnim
     avreader
     avreaderh5
-    ${Boost_LIBRARIES}
+    ${Boost_SYSTEM_LIBRARY}
+    ${Boost_FILESYSTEM_LIBRARY}
     ${COLLADA_LIBRARIES}
 )
 
@@ -52,7 +55,10 @@ add_executable(
 
 target_link_libraries(
 	coherencytest
+	${Boost_SYSTEM_LIBRARY}
+	${Boost_FILESYSTEM_LIBRARY}
 	${COLLADA_LIBRARIES}
+	${LIBXML2_LIBRARIES}
 )
 
 add_executable(
@@ -63,4 +69,6 @@ add_executable(
 target_link_libraries(
 	daeFilter
 	${COLLADA_LIBRARIES}
+	${Boost_SYSTEM_LIBRARY}
+	${Boost_FILESYSTEM_LIBRARY}
 )
