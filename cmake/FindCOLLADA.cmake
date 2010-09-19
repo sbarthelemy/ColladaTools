@@ -44,10 +44,10 @@ FIND_LIBRARY(COLLADA_DYNAMIC_LIBRARY_DEBUG
     /usr/freeware/lib64
 )
 
-FIND_PATH(LIBXML_INCLUDE_DIR libxml
-	/usr/include/libxml2
-	/usr/local/include/libxml2
-)
+#FIND_PATH(LIBXML_INCLUDE_DIR libxml
+#	/usr/include/libxml2
+#	/usr/local/include/libxml2
+#)
 
 
 SET(COLLADA_FOUND "NO")

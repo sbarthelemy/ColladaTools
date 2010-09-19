@@ -13,9 +13,11 @@ Pour Ubuntu
 
 Pré-requis::
 
-    sudo aptitude install cmake
-    sudo aptitude install libcollada14dom2.1 \
-    libboost-dev libxml2-dev
+    sudo add-apt-repository ppa:barthelemy/collada
+    sudo apt-get update
+    sudo aptitude install cmake libcolladadom-dev \
+    libboost-dev libboost-system-dev libboost-filesystem-dev
+    
 
 Construction::
 
@@ -52,18 +54,9 @@ Contenu
 Utilisation
 ============== 
 
-1. Test de cohérence : coherencytest
-2. Filtre dae
-3. Transformation d'une trajectoire HDF5 en animation collada
+1. Filtre dae
+2. Transformation d'une trajectoire HDF5 en animation collada
 
-Test de cohérence
--------------------------
-
-Le test de cohérence est appelé grâce à la commande : 
-
-bin/coherencytest *.dae
-
-Il vérifie la bonne construction d'un fichier Collada.
 
 Filtre dae
 ---------------------
@@ -77,6 +70,7 @@ Le filtre dae est appelé avec certaines options qui lui permettent de définir 
 	-o 		spécifie le nom du fichier de sortie 
 	
 exemple : daeFilter exemple.dae -o exemple-new.dae -nophys -noanim
+
 
 Transformation d'une trajectoire HDF5 en animation collada
 -----------------------------------------------------------

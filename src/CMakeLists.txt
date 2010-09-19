@@ -26,10 +26,10 @@ target_link_libraries(
 )
 
 FIND_PACKAGE(Boost 1.40.0 COMPONENTS system filesystem)
-FIND_PACKAGE(LibXml2 REQUIRED)
+#FIND_PACKAGE(LibXml2 REQUIRED)
 INCLUDE_DIRECTORIES(
 	${Boost_INCLUDE_DIR}
-	${LIBXML2_INCLUDE_DIR}
+	#${LIBXML2_INCLUDE_DIR}
 )
 INCLUDE_DIRECTORIES(
 	${COLLADA_INCLUDE_DIR}
@@ -48,18 +48,6 @@ target_link_libraries(
     ${COLLADA_LIBRARIES}
 )
 
-add_executable(
-	coherencytest
-	coherencytest.cpp
-)
-
-target_link_libraries(
-	coherencytest
-	${Boost_SYSTEM_LIBRARY}
-	${Boost_FILESYSTEM_LIBRARY}
-	${COLLADA_LIBRARIES}
-	${LIBXML2_LIBRARIES}
-)
 
 add_executable(
 	daeFilter
