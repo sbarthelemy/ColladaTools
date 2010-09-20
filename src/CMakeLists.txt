@@ -1,10 +1,10 @@
 #FIND_PACKAGE(HDF5)
 SET(HDF5_INCLUDE_DIRS
-    ${FILTRECOLLADA_SOURCE_DIR}/hdf5/include)
+    ${COLLADATOOLS_SOURCE_DIR}/hdf5/include)
 SET(HDF5_LIBRARIES
-    ${FILTRECOLLADA_SOURCE_DIR}/hdf5/lib/libhdf5_cpp.a
-    ${FILTRECOLLADA_SOURCE_DIR}/hdf5/lib/libhdf5.a
-    ${FILTRECOLLADA_SOURCE_DIR}/szip/lib/libsz.a)
+    ${COLLADATOOLS_SOURCE_DIR}/hdf5/lib/libhdf5_cpp.a
+    ${COLLADATOOLS_SOURCE_DIR}/hdf5/lib/libhdf5.a
+    ${COLLADATOOLS_SOURCE_DIR}/szip/lib/libsz.a)
 FIND_PACKAGE(ZLIB)
 
 include_directories(${HDF5_INCLUDE_DIRS})
