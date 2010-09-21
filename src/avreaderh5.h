@@ -24,12 +24,13 @@ namespace av {
 
     class H5RandomReader : public RandomReader {
     public:
-        H5RandomReader(const std::string fileName, const std::string GroupPath) throw (InvalidFileException);
+        H5RandomReader(const std::string fileName, const std::string GroupPath)
+            throw (InvalidFileException);
         ~H5RandomReader();
         FrameData getFrame(unsigned long step) const;
         unsigned long getNbSteps() const {return nSteps;};
         double getTime(unsigned long step) {return timedata[step];}
-        
+
     private:
         unsigned long nSteps;
         H5::H5File file;
@@ -39,7 +40,6 @@ namespace av {
         std::map<std::string, H5::DataSet >  matrices;
         std::map<std::string, H5::DataSet >  translates;
         std::map<std::string, H5::DataSet >  wrenches;
-
     };
 
     class H5LastReader : public LastReader {

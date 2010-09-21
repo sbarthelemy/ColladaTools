@@ -31,13 +31,13 @@ H5RandomReader::H5RandomReader(const std::string fileName, const std::string gro
 
     try {
         timeline = group.openDataSet("timeline");
-    	nSteps = timeline.getSpace().getSimpleExtentNpoints();
-    	
-    	// Recuperer les donnees de la timeline
-    	timedata = new double[nSteps];
-    	
+        nSteps = timeline.getSpace().getSimpleExtentNpoints();
+
+        // Recuperer les donnees de la timeline
+        timedata = new double[nSteps];
+
         H5::DataSpace dSpace = timeline.getSpace();
-        
+
         for (int i=0; i<nSteps; i++){
             hsize_t count[1] = {1};
             hsize_t offset[1] = {i};
@@ -53,16 +53,16 @@ H5RandomReader::H5RandomReader(const std::string fileName, const std::string gro
         file.close();
         throw InvalidFileException("Cannot access timeline dataset");
     }
-    
-    
+
+
     if (logging::info)
         std::cerr << "Opened group \"" <<  fileName << groupPath << "\" which has " << nSteps << " steps.\n";
-        
+
     /*
      * extract objects names in the xpGroup
      */
      printf("Transform time\n");
-     
+
     try {
         transformsGroup = group.openGroup("transforms");
     }
@@ -70,10 +70,10 @@ H5RandomReader::H5RandomReader(const std::string fileName, const std::string gro
         file.close();
         throw InvalidFileException("Cannot access transformsGroup");
     }
-    
-    
+
+
     printf("Ok\n");
-    
+
     // add exc
     std::vector<std::string>  names;
     H5Literate(transformsGroup.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, iterInGroup, &names);
@@ -87,20 +87,20 @@ H5RandomReader::H5RandomReader(const std::string fileName, const std::string gro
         H5::DataSpace dSpace = dSet.getSpace();
         bool dimension_ok = false;
         if (dSpace.getSimpleExtentNdims()==3) {
-			hsize_t dims[3];
-			dSpace.getSimpleExtentDims (dims);
-			if (dims[0] == nSteps && dims[1] == 4 && dims[2] == 4)
-				dimension_ok = true;
-		}
-	
-		if (dimension_ok){
-			matrices[names[i]] = dSet;
-		} else {
-			if (logging::warning){
-				std::cerr << "Skipping dataset \"" << names[i] << "\" which has wrong dimensions. I was expecting (" << nSteps << ",4,4).\n";
-			}
-			dSet.close();
-		}
+                        hsize_t dims[3];
+                        dSpace.getSimpleExtentDims (dims);
+                        if (dims[0] == nSteps && dims[1] == 4 && dims[2] == 4)
+                                dimension_ok = true;
+                }
+
+                if (dimension_ok){
+                        matrices[names[i]] = dSet;
+                } else {
+                        if (logging::warning){
+                                std::cerr << "Skipping dataset \"" << names[i] << "\" which has wrong dimensions. I was expecting (" << nSteps << ",4,4).\n";
+                        }
+                        dSet.close();
+                }
     }
 };
 
@@ -118,7 +118,7 @@ H5RandomReader::~H5RandomReader() {
     timeline.close();
     group.close();
     file.close();
-    
+
     delete(timedata);
 };
 

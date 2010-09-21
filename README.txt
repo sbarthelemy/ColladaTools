@@ -59,11 +59,11 @@ Filtre dae
 
 Le filtre dae est appelé avec certaines options qui lui permettent de définir les balises que l'on souhaite supprimer.
 
-	-novisu 	supprime les bibliothèques : library_visual_scenes et toutes les instances de la géometrie qui lui sont liées.
-	-noanim		supprime les bibliothèques : library_animations
-	-nophys		supprime les bibliothèques : library_physics et toutes les instances de la géometrie qui lui sont liées.
-	-noinfo 	supprime le nœud asset
-	-o 		spécifie le nom du fichier de sortie
+        -novisu         supprime les bibliothèques : library_visual_scenes et toutes les instances de la géometrie qui lui sont liées.
+        -noanim         supprime les bibliothèques : library_animations
+        -nophys         supprime les bibliothèques : library_physics et toutes les instances de la géometrie qui lui sont liées.
+        -noinfo         supprime le nœud asset
+        -o              spécifie le nom du fichier de sortie
 
 exemple ::
   daeFilter exemple.dae -o exemple-new.dae -nophys -noanim

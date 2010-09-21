@@ -28,12 +28,12 @@ target_link_libraries(
 FIND_PACKAGE(Boost 1.40.0 COMPONENTS system filesystem)
 #FIND_PACKAGE(LibXml2 REQUIRED)
 INCLUDE_DIRECTORIES(
-	${Boost_INCLUDE_DIR}
-	#${LIBXML2_INCLUDE_DIR}
+    ${Boost_INCLUDE_DIR}
+    #${LIBXML2_INCLUDE_DIR}
 )
 INCLUDE_DIRECTORIES(
-	${COLLADA_INCLUDE_DIR}
-	${COLLADA_INCLUDE_DIR}/1.4
+    ${COLLADA_INCLUDE_DIR}
+    ${COLLADA_INCLUDE_DIR}/1.4
 )
 add_executable(
     h5toAnim
@@ -50,13 +50,13 @@ target_link_libraries(
 
 
 add_executable(
-	daeFilter
-	main.cpp
+    daeFilter
+    main.cpp
 )
 
 target_link_libraries(
-	daeFilter
-	${COLLADA_LIBRARIES}
-	${Boost_SYSTEM_LIBRARY}
-	${Boost_FILESYSTEM_LIBRARY}
+    daeFilter
+    ${COLLADA_LIBRARIES}
+    ${Boost_SYSTEM_LIBRARY}
+    ${Boost_FILESYSTEM_LIBRARY}
 )
