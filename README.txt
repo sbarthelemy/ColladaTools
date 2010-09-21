@@ -1,54 +1,14 @@
-============
+
 ColladaTools
 ============
 
-ColladaTools est une batterie de filtres et d'outils pour le traitement des fichiers Collada
+ColladaTools is a set of tools and filters useful to create and process
+collada (.dae) files.
 
-
-Installation
-==============
-
-Pour Ubuntu
-----------------
-
-Pré-requis::
-
-    sudo add-apt-repository ppa:barthelemy/collada
-    sudo apt-get update
-    sudo aptitude install cmake libcolladadom-dev \
-    libboost-dev libboost-system-dev libboost-filesystem-dev
-
-
-Construction::
-
-    cd ColladaTools
-    mkdir build
-    cd build
-    cmake ..
-    make
-
-Pour Mac os X
--------------
-
-Ne compile pas à cause de libboost.
-
-Contenu
+Install
 =======
 
-:cmake:
-    Modules additionnels pour cmake
-
-:data:
-    Exemple de données Collada et HDF5
-
-:hdf5:
-    Bibliothèque HDF5
-
-:src:
-    Code source des outils
-
-:szip:
-    Bibliothèque szip
+TODO: create & publish binary packages and explain how to use them.
 
 
 Utilisation
@@ -72,10 +32,58 @@ exemple ::
 Transformation d'une trajectoire HDF5 en animation collada
 -----------------------------------------------------------
 
-L'exécutable h5toAnim prend en argument un fichier HDF5 contenant une trajectoire, le chemin du HDF5 vers la trajectoire à l'intérieur du fichier
-(/ pour root), ainsi qu'un fichier collada, et intègre l'animation au fichier collada.
+L'exécutable h5toAnim prend en argument un fichier HDF5 contenant l'ensemble
+des trajectoires correpondant à une animation, ainsi qu'un fichier collada
+décrivant une scène, et combine les deux pour créer un nouveau fichier
+collada contenant la scène animée.
 
 exemple ::
   h5toAnim data/exemple.h5 / data/exemple.dae
 
 Le fichier de sortie contenant l'animation sera exemple-new.dae
+
+
+Contenu
+=======
+
+:cmake:
+    Modules additionnels pour cmake
+
+:data:
+    Exemple de données Collada et HDF5
+
+:src:
+    Code source des outils
+
+
+Build from source
+=================
+
+Prerequisites
+-------------
+
+On Ubuntu lucid lynx ::
+
+    sudo add-apt-repository ppa:barthelemy/collada
+    sudo apt-get update
+    sudo aptitude install cmake libcolladadom-dev \
+    libboost-dev libboost-system-dev libboost-filesystem-dev
+
+
+On Mac os X, with `macports <http://www.macports.org/>`_::
+
+    sudo port install cmake hdf5-18 collada-dom #FIXME: add boost
+
+FIXME: add Windows details
+
+Build
+-----
+
+::
+
+    cd ColladaTools
+    mkdir build
+    cd build
+    cmake ..
+    make
+

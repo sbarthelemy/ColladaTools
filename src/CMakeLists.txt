@@ -1,23 +1,63 @@
-#FIND_PACKAGE(HDF5)
-SET(HDF5_INCLUDE_DIRS
-    ${COLLADATOOLS_SOURCE_DIR}/hdf5/include)
-SET(HDF5_LIBRARIES
-    ${COLLADATOOLS_SOURCE_DIR}/hdf5/lib/libhdf5_cpp.a
-    ${COLLADATOOLS_SOURCE_DIR}/hdf5/lib/libhdf5.a
-    ${COLLADATOOLS_SOURCE_DIR}/szip/lib/libsz.a)
-FIND_PACKAGE(ZLIB)
+
+find_package(Boost COMPONENTS program_options filesystem system)
+find_package(HDF5 COMPONENTS CXX)
+find_package(ZLIB)
+find_package(COLLADA)
+
+if (COLLADA_FOUND)
+    # this section was adapted from
+    # osg/src/osgPlugins/dae/CMakeLists.txt
+    if(COLLADA_DYNAMIC_LIBRARY AND COLLADA_STATIC_LIBRARY)
+        option(COLLADA_USE_STATIC "Set to ON to build with static Collada support." OFF)
+    elseif(COLLADA_STATIC_LIBRARY)
+        set(COLLADA_USE_STATIC "YES")
+    else()
+        set(COLLADA_USE_STATIC "NO")
+    endif()
+
+    IF(COLLADA_USE_STATIC)
+        IF(WIN32)
+            SET(COLLADA_LIBRARIES
+                ${COLLADA_STATIC_LIBRARY}
+                ${COLLADA_LIBXML_LIBRARY}
+                ${COLLADA_ZLIB_LIBRARY}
+                ${COLLADA_PCRECPP_LIBRARY}
+                ${COLLADA_PCRE_LIBRARY}
+                ${COLLADA_MINIZIP_LIBRARY}
+                ${COLLADA_BOOST_FILESYSTEM_LIBRARY}
+                ${COLLADA_BOOST_SYSTEM_LIBRARY})
+        ELSE()
+            SET(COLLADA_LIBRARIES
+                ${COLLADA_STATIC_LIBRARY}
+                ${COLLADA_LIBXML_LIBRARY}
+                ${COLLADA_PCRECPP_LIBRARY}
+                ${COLLADA_PCRE_LIBRARY}
+                ${COLLADA_BOOST_FILESYSTEM_LIBRARY}
+                ${COLLADA_BOOST_SYSTEM_LIBRARY})
+        ENDIF()
+    ELSE()
+        IF(WIN32)
+            SET(COLLADA_LIBRARIES ${COLLADA_DYNAMIC_LIBRARY})
+        ELSE()
+            SET(COLLADA_LIBRARIES
+                ${COLLADA_DYNAMIC_LIBRARY}
+                ${COLLADA_BOOST_FILESYSTEM_LIBRARY})
+        ENDIF()
+    ENDIF()
+endif (COLLADA_FOUND)
 
 include_directories(${HDF5_INCLUDE_DIRS})
-message(STATUS ${Boost_LIBRARIES})
 add_library(
     avreader
+    STATIC
     avreader.cpp
 )
-
 add_library(
     avreaderh5
+    STATIC
     avreaderh5.cpp
 )
+
 target_link_libraries(
     avreaderh5
     avreader
@@ -25,22 +65,20 @@ target_link_libraries(
     ${ZLIB_LIBRARIES}
 )
 
-FIND_PACKAGE(Boost 1.40.0 COMPONENTS system filesystem)
-#FIND_PACKAGE(LibXml2 REQUIRED)
-INCLUDE_DIRECTORIES(
+include_directories(
     ${Boost_INCLUDE_DIR}
-    #${LIBXML2_INCLUDE_DIR}
 )
-INCLUDE_DIRECTORIES(
+include_directories(
     ${COLLADA_INCLUDE_DIR}
     ${COLLADA_INCLUDE_DIR}/1.4
 )
+
 add_executable(
-    h5toAnim
+    h5toanim
     h5toAnim.cpp
 )
 target_link_libraries(
-    h5toAnim
+    h5toanim
     avreader
     avreaderh5
     ${Boost_SYSTEM_LIBRARY}
@@ -50,13 +88,17 @@ target_link_libraries(
 
 
 add_executable(
-    daeFilter
+    daefilter
     main.cpp
 )
-
 target_link_libraries(
-    daeFilter
+    daefilter
     ${COLLADA_LIBRARIES}
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_FILESYSTEM_LIBRARY}
 )
+
+install(
+    TARGETS h5toanim daefilter
+    RUNTIME
+    DESTINATION bin)
