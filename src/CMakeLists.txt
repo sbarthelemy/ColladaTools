@@ -46,6 +46,8 @@ if (COLLADA_FOUND)
     ENDIF()
 endif (COLLADA_FOUND)
 
+# h5toanim
+
 include_directories(${HDF5_INCLUDE_DIRS})
 add_library(
     avreader
@@ -86,6 +88,8 @@ target_link_libraries(
     ${Boost_PROGRAM_OPTIONS_LIBRARY}
     ${COLLADA_LIBRARIES}
 )
+
+# dae filter
 
 add_executable(
     daefilter

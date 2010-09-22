@@ -9,7 +9,11 @@ set(LIBRARY_OUTPUT_PATH ${ColladaTools_BINARY_DIR}/lib)
 
 add_subdirectory(src)
 
-# Packaging options
+# Automated testing
+enable_testing()
+add_subdirectory(tests)
+
+# Packaging
 
 # TODO: set the following options:
 #CPACK_RESSOURCE_FILE_WELCOME
