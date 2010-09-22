@@ -3,17 +3,14 @@
 
 #include <fstream>
 #include <iostream>
-//#include <cstdlib>
 #include <ctime>
 #include <string>
 #include "avreaderh5.h"
-
+#include <boost/program_options.hpp>
 
 const double POS_FACTOR = 0.1;
-
+namespace po = boost::program_options;
 using namespace av;
-
-
 
 #define ABS(a)  (((a) < 0) ? -(a) : (a))
 #define EPSILON 0.00001
@@ -245,26 +242,44 @@ void AnimationExporter::add(float timestamp, float val0, float val1, float val2)
 
 int main(int argc, char **argv )
 {
+    std::string scene_file;     // input filename
+    std::string hdf5_file;
+    std::string hdf5_group;
+    std::string file_out; // output filename
+    po::options_description desc("Allowed options");
+    desc.add_options()
+        ("help", "produce help message")
+        ("hdf5-file", po::value<std::string>(&hdf5_file),
+         "HDF5 input data file")
+        ("hdf5-group", po::value<std::string>(&hdf5_group)->default_value("/"),
+         "subgroup within the HDF5 file")
+        ("scene-file", po::value<std::string>(&scene_file),
+         "collada input scene file")
+        ("output-file,o",
+         po::value<std::string>(&file_out)->default_value("out.dae"),
+         "output file")
+        ;
+    po::positional_options_description p;
+    p.add("hdf5-file", 1);
+    p.add("scene-file", 1);
+    p.add("output-file", 1);
+    po::variables_map vm;
+    po::store(po::command_line_parser(argc, argv).
+            options(desc).positional(p).run(), vm);
+    po::notify(vm);
 
-    if (argc < 2)
-    {
-        exit(1);
+    if (vm.count("help")) {
+        std::cout << desc << "\n";
+        return 1;
     }
-
-    char *file;     // Input files
-    char *file_out; // Output filenames
     std::vector<const char *> elements;
-
     //std::basic_string<char> element;
-
-    file = argv[3];
-
     DAE *dae = new DAE;
-    //daeElement *root = (daeElement*)dae->open(file);
+    //daeElement *root = (daeElement*)dae->open(scene_file);
 
-    domCOLLADA *root = (domCOLLADA*)dae->open(file);
+    domCOLLADA *root = (domCOLLADA*)dae->open(scene_file);
 
-    H5RandomReader myReader(argv[1], argv[2]);
+    H5RandomReader myReader(hdf5_file, hdf5_group);
 
     FrameData fd = myReader.getFrame(0);
     std::map <std::string, Matrix >::iterator it;
@@ -309,9 +324,9 @@ int main(int argc, char **argv )
         }
     }
 
-    dae->add("test-new.dae");
-    dae->setRoot("test-new.dae", (domCOLLADA*)root);
-    dae->write("test-new.dae");
+    dae->add(file_out);
+    dae->setRoot(file_out, (domCOLLADA*)root);
+    dae->write(file_out);
 
     return 0;
 }

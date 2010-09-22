@@ -83,9 +83,9 @@ target_link_libraries(
     avreaderh5
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_FILESYSTEM_LIBRARY}
+    ${Boost_PROGRAM_OPTIONS_LIBRARY}
     ${COLLADA_LIBRARIES}
 )
-
 
 add_executable(
     daefilter
