@@ -4,6 +4,8 @@ find_package(HDF5 COMPONENTS CXX)
 find_package(ZLIB)
 find_package(COLLADA)
 
+# handle collada libraries
+
 if (COLLADA_FOUND)
     # this section was adapted from
     # osg/src/osgPlugins/dae/CMakeLists.txt
@@ -46,7 +48,7 @@ if (COLLADA_FOUND)
     ENDIF()
 endif (COLLADA_FOUND)
 
-# h5toanim
+# build h5toanim
 
 include_directories(${HDF5_INCLUDE_DIRS})
 add_library(
@@ -89,7 +91,7 @@ target_link_libraries(
     ${COLLADA_LIBRARIES}
 )
 
-# dae filter
+# build dae filter
 
 add_executable(
     daefilter
@@ -102,7 +104,19 @@ target_link_libraries(
     ${Boost_FILESYSTEM_LIBRARY}
 )
 
+# install
+
 install(
     TARGETS h5toanim daefilter
     RUNTIME
     DESTINATION bin)
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/FixBundle.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake
+    @ONLY
+)
+install(
+    SCRIPT
+    ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake
+)

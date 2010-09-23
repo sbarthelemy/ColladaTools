@@ -7,6 +7,8 @@ set(CMAKE_BUILD_TYPE Debug)
 set(EXECUTABLE_OUTPUT_PATH ${ColladaTools_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${ColladaTools_BINARY_DIR}/lib)
 
+include(InstallRequiredSystemLibraries)
+
 add_subdirectory(src)
 
 # Automated testing
