@@ -47,17 +47,5 @@ inline int stricmp(const char *s1, const char *s2)
 }
 
 #endif
-
-class CoherencyTestErrorHandler : public daeErrorHandler
-{
-public:
-	CoherencyTestErrorHandler();
-	virtual ~CoherencyTestErrorHandler();
-
-public:
-	void handleError( daeString msg );
-	void handleWarning( daeString msg );
-};
-
 #endif
 
