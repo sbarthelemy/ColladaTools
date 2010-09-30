@@ -50,8 +50,16 @@ class SourceExporter
         ~SourceExporter();
         void add(float val);
         void add(float val0, float val1, float val2);
+        void add(float val0, float val1, float val2, float val3,
+                 float val4, float val5, float val6, float val7,
+                 float val8, float val9, float val10, float val11,
+                 float val12, float val13, float val14, float val15);
         void add(const char *val);
         void add(const char *val0, const char *val1, const char *val2);
+        void add(const char *val0, const char *val1, const char *val2, const char *val3,
+                 const char *val4, const char *val5, const char *val6, const char *val7,
+                 const char *val8, const char *val9, const char *val10, const char *val11,
+                 const char *val12, const char *val13, const char *val14, const char *val15);
         void addAccessorParam(const char *name, const char *type);
 };
 
@@ -111,6 +119,19 @@ void SourceExporter::add(float val0, float val1, float val2)
     mAccess->setCount(mCount/mStride);
 }
 
+void SourceExporter::add(float val0, float val1, float val2, float val3,
+                         float val4, float val5, float val6, float val7,
+                         float val8, float val9, float val10, float val11,
+                         float val12, float val13, float val14, float val15)
+{
+    mFA->getValue().append4(val0, val1, val2, val3);
+    mFA->getValue().append4(val4, val5, val6, val7);
+    mFA->getValue().append4(val8, val9, val10, val11);
+    mFA->getValue().append4(val12, val13, val14, val15);
+    mCount+=16;
+    mFA->setCount(mCount);
+    mAccess->setCount(mCount/mStride);
+}
 
 void SourceExporter::add(const char *val)
 {
@@ -127,6 +148,21 @@ void SourceExporter::add(const char *val0, const char *val1, const char *val2)
     mNA->setCount(mCount);
     mAccess->setCount(mCount/mStride);
 }
+
+void SourceExporter::add(const char *val0, const char *val1, const char *val2, const char *val3,
+                         const char *val4, const char *val5, const char *val6, const char *val7,
+                         const char *val8, const char *val9, const char *val10, const char *val11,
+                         const char *val12, const char *val13, const char *val14, const char *val15)
+{
+	mNA->getValue().append4(val0, val1, val2, val3);
+    mNA->getValue().append4(val4, val5, val6, val7);
+    mNA->getValue().append4(val8, val9, val10, val11);
+    mNA->getValue().append4(val12, val13, val14, val15);
+    mCount += 16;
+    mNA->setCount(mCount);
+    mAccess->setCount(mCount/mStride);
+}
+
 
 
 void SourceExporter::addAccessorParam(const char *name, const char *type)
@@ -153,6 +189,11 @@ class AnimationExporter
         ~AnimationExporter();
         void add(float timestamp, float val);
         void add(float timestamp, float val0, float val1, float val2);
+        void add(float timestamp,
+                 float val0, float val1, float val2, float val3,
+                 float val4, float val5, float val6, float val7,
+                 float val8, float val9, float val10, float val11,
+                 float val12, float val13, float val14, float val15);
 };
 
 
@@ -169,7 +210,7 @@ AnimationExporter::AnimationExporter(domLibrary_animations *root, int stride, co
     mAnim->setId(mName);
 
     mInput = new SourceExporter(mAnim, 1, 0, tmp, "input");
-    mInterpolation = new SourceExporter(mAnim, stride, 1, tmp, "interpolation");
+    mInterpolation = new SourceExporter(mAnim, 1, 1, tmp, "interpolation");
     mOutput = new SourceExporter(mAnim, stride, 0, tmp, "output");
 
     // Ajouter les parametres...
@@ -177,20 +218,24 @@ AnimationExporter::AnimationExporter(domLibrary_animations *root, int stride, co
 
     if (stride == 3){
         const char *letters[3] = {"X", "Y", "Z"};
-
         for (int i=0; i<3; i++){
             mInterpolation->addAccessorParam(letters[i], "Name");
             mOutput->addAccessorParam(letters[i], "float");
         }
-
         // Target ?
         sprintf(target, "%s/%s", name, type);
-    } else {
-        mInterpolation->addAccessorParam("ANGLE", "Name");
+    } else if (stride == 1) {
+        mInterpolation->addAccessorParam("INTERPOLATION", "Name");
         mOutput->addAccessorParam("ANGLE", "float");
 
         // Target ?
         sprintf(target, "%s/%s.ANGLE", name, type);
+    } else if (stride == 16) {
+        mInterpolation->addAccessorParam("INTERPOLATION", "Name");
+        mOutput->addAccessorParam("TRANSFORM", "float4x4");
+
+        // Target ?
+        sprintf(target, "%s/%s", name, type);
     }
 
 
@@ -239,13 +284,32 @@ void AnimationExporter::add(float timestamp, float val0, float val1, float val2)
     mOutput->add(val0, val1, val2);
 }
 
+void AnimationExporter::add(float timestamp,
+                            float val0, float val1, float val2, float val3,
+                            float val4, float val5, float val6, float val7,
+                            float val8, float val9, float val10, float val11,
+                            float val12, float val13, float val14, float val15)
+{
+    mInput->add(timestamp);
+/*    mInterpolation->add("STEP", "STEP", "STEP", "STEP",
+                        "STEP", "STEP", "STEP", "STEP",
+                        "STEP", "STEP", "STEP", "STEP",
+                        "STEP", "STEP", "STEP", "STEP");
+*/
+    mInterpolation->add("STEP");
+    mOutput->add(val0, val1, val2, val3,
+                 val4, val5, val6, val7,
+                 val8, val9, val10, val11,
+                 val12, val13, val14, val15);
+}
 
 int main(int argc, char **argv )
 {
-    std::string scene_file;     // input filename
-    std::string hdf5_file;
+    // describe command-line options
+    std::string scene_file; // input collada scene filename
+    std::string hdf5_file; // input hdf5 filename
     std::string hdf5_group;
-    std::string file_out; // output filename
+    std::string file_out; // output collada animation filename
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help", "produce help message")
@@ -272,6 +336,7 @@ int main(int argc, char **argv )
         std::cout << desc << "\n";
         return 1;
     }
+
     std::vector<const char *> elements;
     //std::basic_string<char> element;
     DAE *dae = new DAE;
@@ -297,12 +362,7 @@ int main(int argc, char **argv )
     //printf("Found %i steps...\n", (int)myReader.getNbSteps());
 
     for (int j=0; j<elements.size(); j++){
-        double angle[3];
-        AnimationExporter *rot[3];
-        AnimationExporter *trans = new AnimationExporter(lib_anim, 3, elements[j], "translate");
-        rot[2] = new AnimationExporter(lib_anim, 1, elements[j], "rotateZ");
-        rot[1] = new AnimationExporter(lib_anim, 1, elements[j], "rotateY");
-        rot[0] = new AnimationExporter(lib_anim, 1, elements[j], "rotateX");
+        AnimationExporter *matrix = new AnimationExporter(lib_anim, 16, elements[j], "matrix");
 
         for (int i=0; i<myReader.getNbSteps(); i++){
             //printf("Step %i\n", i);
@@ -312,13 +372,12 @@ int main(int argc, char **argv )
             for (it = fd.matrices.begin(); it != fd.matrices.end(); ++it){
                 if (elements[j] == (it->first).c_str()) {
                     //std::cout << "Key : " << it->first << std::endl;
-                    matrix2euler(it->second, &angle[0], &angle[1], &angle[2]);
                     //td::cout << ax << "\t" << ay << "\t" << az << std::endl;
-
-                    trans->add(myReader.getTime(i), it->second[3 + 0*4], it->second[3 + 1*4], it->second[3 + 2*4]);
-                    for (int k=0; k<3; k++){
-                        rot[k]->add(myReader.getTime(i), angle[k]);
-                    }
+                    matrix->add(myReader.getTime(i),
+                        it->second[0 + 0*4], it->second[1 + 0*4], it->second[2 + 0*4], it->second[3 + 0*4],
+                        it->second[0 + 1*4], it->second[1 + 1*4], it->second[2 + 1*4], it->second[3 + 1*4],
+                        it->second[0 + 2*4], it->second[1 + 2*4], it->second[2 + 2*4], it->second[3 + 2*4],
+                        it->second[0 + 3*4], it->second[1 + 3*4], it->second[2 + 3*4], it->second[3 + 3*4]);
                 }
             }
         }
