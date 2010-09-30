@@ -8,30 +8,8 @@
 #include "avreaderh5.h"
 #include <boost/program_options.hpp>
 
-const double POS_FACTOR = 0.1;
 namespace po = boost::program_options;
 using namespace av;
-
-#define ABS(a)  (((a) < 0) ? -(a) : (a))
-#define EPSILON 0.00001
-
-void matrix2euler(Matrix mat, double *ax, double *ay, double *az)
-{
-    if ((ABS(mat[0]) < EPSILON) && (ABS(mat[1]) < EPSILON)){
-        *az = 0.0;
-        *ay = atan2(-mat[0 + 2*4], mat[0]);
-        *ax = atan2(-mat[2 + 1*4], mat[1 + 1*4]);
-    } else {
-        *az = atan2(mat[0 + 1*4], mat[0]);
-        double sz = sin(*az);
-        double cz = cos(*az);
-        *ay = atan2(-mat[0 + 2*4], cz*mat[0] + sz*mat[0 + 1*4]);
-        *ax = atan2(sz*mat[2] - cz*mat[2 + 1*4], cz*mat[1 + 1*4] - sz*mat[1]);
-    }
-    *ax = *ax *57.2957795f;
-    *ay = *ay *57.2957795f;
-    *az = *az *57.2957795f;
-}
 
 class SourceExporter
 {
@@ -62,9 +40,6 @@ class SourceExporter
                  const char *val12, const char *val13, const char *val14, const char *val15);
         void addAccessorParam(const char *name, const char *type);
 };
-
-
-
 
 SourceExporter::SourceExporter(domAnimation *root, int stride, int isName, const char *name, const char *type)
 {
@@ -164,7 +139,6 @@ void SourceExporter::add(const char *val0, const char *val1, const char *val2, c
 }
 
 
-
 void SourceExporter::addAccessorParam(const char *name, const char *type)
 {
     domParam *param = (domParam*)mAccess->add("param");
@@ -253,7 +227,6 @@ AnimationExporter::AnimationExporter(domLibrary_animations *root, int stride, co
     chan->setTarget(target);
 }
 
-
 AnimationExporter::~AnimationExporter()
 {
     free(mName);
@@ -303,6 +276,7 @@ void AnimationExporter::add(float timestamp,
                  val12, val13, val14, val15);
 }
 
+
 int main(int argc, char **argv )
 {
     // describe command-line options
@@ -351,7 +325,7 @@ int main(int argc, char **argv )
     for (it = fd.matrices.begin(); it != fd.matrices.end(); ++it){
             elements.push_back((it->first).c_str());
     }
-    printf("Found %i elements... \n", elements.size() );
+    //printf("Found %i elements... \n", elements.size() );
 
     domLibrary_animations *lib_anim;
 
