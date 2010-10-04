@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA version="1.4.1" xmlns="http://www.collada.org/2005/11/COLLADASchema">
+	<asset>
+		<created>2005-06-27T21:00:00Z</created>
+		<modified>2005-06-27T21:00:00Z</modified>
+		<unit meter="1" name="meter" />
+		<up_axis>Y_UP</up_axis>
+	</asset>
+	<library_materials>
+		<material id="color0">
+			<instance_effect url="#color0_fx" />
+		</material>
+		<material id="color1">
+			<instance_effect url="#color1_fx" />
+		</material>
+		<material id="color2">
+			<instance_effect url="#color2_fx" />
+		</material>
+	</library_materials>
+	<library_effects>
+		<effect id="color0_fx">
+			<profile_COMMON>
+				<technique sid="blender">
+					<phong>
+						<diffuse>
+							<color>0.9 0.09 0.333 1.</color>
+						</diffuse>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+		<effect id="color1_fx">
+			<profile_COMMON>
+				<technique sid="blender">
+					<phong>
+						<diffuse>
+							<color>0.9 0.09 0.576 1.</color>
+						</diffuse>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+		<effect id="color2_fx">
+			<profile_COMMON>
+				<technique sid="blender">
+					<phong>
+						<diffuse>
+							<color>0.9 0.09 0.819 1.</color>
+						</diffuse>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+	</library_effects>
+	<library_nodes>
+		<node id="frame_arrows">
+			<scale>0.08 0.08 0.08</scale>
+			<instance_node url="/Users/seb/Devel/arboris-python/src/arboris/shapes.dae#frame_arrows" />
+		</node>
+	</library_nodes>
+	<library_visual_scenes>
+		<visual_scene id="myscene">
+			<node id="Arm" name="Arm">
+				<matrix sid="matrix"> 0.70738827 -0.70682518  0.          0.          0.70682518  0.70738827
+  0.          0.          0.          0.          1.          0.          0.
+  0.          0.          1.        </matrix>
+				<instance_node url="#frame_arrows" />
+				<node>
+					<matrix sid="matrix"> 1.    0.    0.    0.    0.    1.    0.    0.25  0.    0.    1.    0.    0.
+  0.    0.    1.  </matrix>
+					<instance_node url="#frame_arrows" />
+					<node>
+						<scale>0.025 0.25 0.025</scale>
+						<instance_geometry url="/Users/seb/Devel/arboris-python/src/arboris/shapes.dae#box">
+							<bind_material>
+								<technique_common>
+									<instance_material symbol="material" target="#color0" />
+								</technique_common>
+							</bind_material>
+						</instance_geometry>
+					</node>
+				</node>
+				<node>
+					<matrix sid="matrix"> 0.  1.  0.  0. -0.  0.  1.  0.  1. -0.  0.  0.  0.  0.  0.  1.</matrix>
+					<scale>0. 0. 0.25</scale>
+					<instance_geometry url="/Users/seb/Devel/arboris-python/src/arboris/shapes.dae#line">
+						<bind_material>
+							<technique_common>
+								<instance_material symbol="material" target="#color0" />
+							</technique_common>
+						</bind_material>
+					</instance_geometry>
+				</node>
+				<node id="ElbowBaseFrame" name="ElbowBaseFrame">
+					<matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.5  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+					<instance_node url="#frame_arrows" />
+					<node id="Forearm" name="Forearm">
+						<matrix sid="matrix"> 1. -0.  0.  0.  0.  1.  0.  0.  0.  0.  1.  0.  0.  0.  0.  1.</matrix>
+						<instance_node url="#frame_arrows" />
+						<node>
+							<matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.2  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+							<instance_node url="#frame_arrows" />
+							<node>
+								<scale>0.02 0.2 0.02</scale>
+								<instance_geometry url="/Users/seb/Devel/arboris-python/src/arboris/shapes.dae#box">
+									<bind_material>
+										<technique_common>
+											<instance_material symbol="material" target="#color1" />
+										</technique_common>
+									</bind_material>
+								</instance_geometry>
+							</node>
+						</node>
+						<node>
+							<matrix sid="matrix"> 0.  1.  0.  0. -0.  0.  1.  0.  1. -0.  0.  0.  0.  0.  0.  1.</matrix>
+							<scale>0. 0. 0.2</scale>
+							<instance_geometry url="/Users/seb/Devel/arboris-python/src/arboris/shapes.dae#line">
+								<bind_material>
+									<technique_common>
+										<instance_material symbol="material" target="#color1" />
+									</technique_common>
+								</bind_material>
+							</instance_geometry>
+						</node>
+						<node id="WristBaseFrame" name="WristBaseFrame">
+							<matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.4  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+							<instance_node url="#frame_arrows" />
+							<node id="Hand" name="Hand">
+								<matrix sid="matrix"> 1. -0.  0.  0.  0.  1.  0.  0.  0.  0.  1.  0.  0.  0.  0.  1.</matrix>
+								<instance_node url="#frame_arrows" />
+								<node>
+									<matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.1  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+									<instance_node url="#frame_arrows" />
+									<node>
+										<scale>0.01 0.1 0.01</scale>
+										<instance_geometry url="/Users/seb/Devel/arboris-python/src/arboris/shapes.dae#box">
+											<bind_material>
+												<technique_common>
+													<instance_material symbol="material" target="#color2" />
+												</technique_common>
+											</bind_material>
+										</instance_geometry>
+									</node>
+								</node>
+								<node>
+									<matrix sid="matrix"> 0.  1.  0.  0. -0.  0.  1.  0.  1. -0.  0.  0.  0.  0.  0.  1.</matrix>
+									<scale>0. 0. 0.1</scale>
+									<instance_geometry url="/Users/seb/Devel/arboris-python/src/arboris/shapes.dae#line">
+										<bind_material>
+											<technique_common>
+												<instance_material symbol="material" target="#color2" />
+											</technique_common>
+										</bind_material>
+									</instance_geometry>
+								</node>
+								<node id="EndEffector" name="EndEffector">
+									<matrix sid="matrix"> 1.   0.   0.   0.   0.   1.   0.   0.2  0.   0.   1.   0.   0.   0.   0.
+  1. </matrix>
+									<instance_node url="#frame_arrows" />
+								</node>
+								<node>
+									<matrix sid="matrix"> 0.  1.  0.  0. -0.  0.  1.  0.  1. -0.  0.  0.  0.  0.  0.  1.</matrix>
+									<scale>0. 0. 0.2</scale>
+									<instance_geometry url="/Users/seb/Devel/arboris-python/src/arboris/shapes.dae#line">
+										<bind_material>
+											<technique_common>
+												<instance_material symbol="material" target="#color2" />
+											</technique_common>
+										</bind_material>
+									</instance_geometry>
+								</node>
+							</node>
+						</node>
+						<node>
+							<matrix sid="matrix"> 0.  1.  0.  0. -0.  0.  1.  0.  1. -0.  0.  0.  0.  0.  0.  1.</matrix>
+							<scale>0. 0. 0.4</scale>
+							<instance_geometry url="/Users/seb/Devel/arboris-python/src/arboris/shapes.dae#line">
+								<bind_material>
+									<technique_common>
+										<instance_material symbol="material" target="#color1" />
+									</technique_common>
+								</bind_material>
+							</instance_geometry>
+						</node>
+					</node>
+				</node>
+				<node>
+					<matrix sid="matrix"> 0.  1.  0.  0. -0.  0.  1.  0.  1. -0.  0.  0.  0.  0.  0.  1.</matrix>
+					<scale>0. 0. 0.5</scale>
+					<instance_geometry url="/Users/seb/Devel/arboris-python/src/arboris/shapes.dae#line">
+						<bind_material>
+							<technique_common>
+								<instance_material symbol="material" target="#color0" />
+							</technique_common>
+						</bind_material>
+					</instance_geometry>
+				</node>
+			</node>
+		</visual_scene>
+	</library_visual_scenes>
+	<scene>
+		<instance_visual_scene url="#myscene" />
+	</scene>
+</COLLADA>
