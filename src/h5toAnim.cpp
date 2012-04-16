@@ -311,8 +311,7 @@ int main(int argc, char **argv )
         return 1;
     }
 
-    std::vector<const char *> elements;
-    //std::basic_string<char> element;
+    std::vector<std::string> elements;
     DAE *dae = new DAE;
     //daeElement *root = (daeElement*)dae->open(scene_file);
 
@@ -323,7 +322,7 @@ int main(int argc, char **argv )
     FrameData fd = myReader.getFrame(0);
     std::map <std::string, Matrix >::iterator it;
     for (it = fd.matrices.begin(); it != fd.matrices.end(); ++it){
-            elements.push_back((it->first).c_str());
+        elements.push_back(std::string(it->first));
     }
     //printf("Found %i elements... \n", elements.size() );
 
@@ -336,7 +335,7 @@ int main(int argc, char **argv )
     //printf("Found %i steps...\n", (int)myReader.getNbSteps());
 
     for (int j=0; j<elements.size(); j++){
-        AnimationExporter *matrix = new AnimationExporter(lib_anim, 16, elements[j], "matrix");
+        AnimationExporter *matrix = new AnimationExporter(lib_anim, 16, elements[j].c_str(), "matrix");
 
         for (int i=0; i<myReader.getNbSteps(); i++){
             //printf("Step %i\n", i);
