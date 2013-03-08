@@ -42,19 +42,12 @@ FIND_PATH(COLLADA_INCLUDE_DIR dae.h
     ~/Library/Frameworks
     /Library/Frameworks
     /opt/local/Library/Frameworks #macports
-    /usr/local/include
-    /usr/local/include/colladadom
-    /usr/include/
-    /usr/include/colladadom
     /sw/include # Fink
-    /opt/local/include # DarwinPorts
-    /opt/csw/include # Blastwave
-    /opt/include
-    /usr/freeware/include
     ${ACTUAL_3DPARTY_DIR}/include
+    PATH_SUFFIXES collada-dom colladadom
 )
 
-FIND_LIBRARY(COLLADA_DYNAMIC_LIBRARY 
+FIND_LIBRARY(COLLADA_DYNAMIC_LIBRARY
     NAMES collada_dom collada14dom Collada14Dom libcollada14dom21 libcollada14dom22
     PATHS
     ${COLLADA_DOM_ROOT}/build/${COLLADA_BUILDNAME}-1.4
@@ -63,21 +56,12 @@ FIND_LIBRARY(COLLADA_DYNAMIC_LIBRARY
     $ENV{COLLADA_DIR}/lib-dbg
     $ENV{COLLADA_DIR}
     ~/Library/Frameworks
-    /Library/Frameworks    
+    /Library/Frameworks
     /opt/local/Library/Frameworks #macports
-    /usr/local/lib
-    /usr/local/lib64
-    /usr/lib
-    /usr/lib64
-    /sw/lib
-    /opt/local/lib
-    /opt/csw/lib
-    /opt/lib
-    /usr/freeware/lib64
     ${ACTUAL_3DPARTY_DIR}/lib
 )
 
-FIND_LIBRARY(COLLADA_DYNAMIC_LIBRARY_DEBUG 
+FIND_LIBRARY(COLLADA_DYNAMIC_LIBRARY_DEBUG
     NAMES collada_dom-d collada14dom-d Collada14Dom-d libcollada14dom21-d libcollada14dom22-d
     PATHS
     ${COLLADA_DOM_ROOT}/build/${COLLADA_BUILDNAME}-1.4-d
@@ -88,19 +72,10 @@ FIND_LIBRARY(COLLADA_DYNAMIC_LIBRARY_DEBUG
     ~/Library/Frameworks
     /Library/Frameworks
     /opt/local/Library/Frameworks #macports
-    /usr/local/lib
-    /usr/local/lib64
-    /usr/lib
-    /usr/lib64
-    /sw/lib
-    /opt/local/lib
-    /opt/csw/lib
-    /opt/lib
-    /usr/freeware/lib64
     ${ACTUAL_3DPARTY_DIR}/lib
 )
 
-FIND_LIBRARY(COLLADA_STATIC_LIBRARY 
+FIND_LIBRARY(COLLADA_STATIC_LIBRARY
     NAMES libcollada14dom21-s  libcollada14dom22-s
     PATHS
     ${COLLADA_DOM_ROOT}/build/${COLLADA_BUILDNAME}-1.4
@@ -111,19 +86,10 @@ FIND_LIBRARY(COLLADA_STATIC_LIBRARY
     ~/Library/Frameworks
     /Library/Frameworks
     /opt/local/Library/Frameworks #macports
-    /usr/local/lib
-    /usr/local/lib64
-    /usr/lib
-    /usr/lib64
-    /sw/lib
-    /opt/local/lib
-    /opt/csw/lib
-    /opt/lib
-    /usr/freeware/lib64
     ${ACTUAL_3DPARTY_DIR}/lib
 )
 
-FIND_LIBRARY(COLLADA_STATIC_LIBRARY_DEBUG 
+FIND_LIBRARY(COLLADA_STATIC_LIBRARY_DEBUG
     NAMES collada_dom-sd collada14dom-sd libcollada14dom21-sd libcollada14dom22-sd
     PATHS
     ${COLLADA_DOM_ROOT}/build/${COLLADA_BUILDNAME}-1.4-d
@@ -134,15 +100,6 @@ FIND_LIBRARY(COLLADA_STATIC_LIBRARY_DEBUG
     ~/Library/Frameworks
     /Library/Frameworks
     /opt/local/Library/Frameworks #macports
-    /usr/local/lib
-    /usr/local/lib64
-    /usr/lib
-    /usr/lib64
-    /sw/lib
-    /opt/local/lib
-    /opt/csw/lib
-    /opt/lib
-    /usr/freeware/lib64
     ${ACTUAL_3DPARTY_DIR}/lib
 )
 
@@ -162,7 +119,7 @@ FIND_LIBRARY(COLLADA_STATIC_LIBRARY_DEBUG
             )
         ENDIF(WIN32)
     ENDIF(LIBXML2_FOUND)
-    
+
     FIND_PACKAGE(ZLIB)
     IF (ZLIB_FOUND)
         SET(COLLADA_ZLIB_LIBRARY "${ZLIB_LIBRARY}" CACHE FILEPATH "" FORCE)
