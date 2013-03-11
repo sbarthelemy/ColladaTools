@@ -7,9 +7,9 @@ add_library(
     avreader
     STATIC
     avreader/avreader.h
-    avreader/avreaderh5.h
     src/avreader.cpp
     src/avreaderh5.cpp
+    src/avreaderh5.h
 )
 target_link_libraries(
     avreader

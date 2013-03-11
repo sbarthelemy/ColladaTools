@@ -1,6 +1,5 @@
-
-#ifndef __ARBORISVIEWER__
-#define __ARBORISVIEWER__
+#ifndef AVREADERH5_H
+#define AVREADERH5_H
 
 /*!
  * \file arborisViewer.h
@@ -12,19 +11,13 @@
 #include <string>
 #include <map>
 #include <H5Cpp.h>
-#include <stdexcept>
 #include <avreader/avreader.h>
 
 namespace av {
-class InvalidFileException : public std::runtime_error {
-public:
- InvalidFileException(): std::runtime_error("Invalid scene file") {};
- InvalidFileException(const std::string msg): std::runtime_error(msg) {};
-};
 
 class H5RandomReader : public RandomReader {
 public:
-  H5RandomReader(const std::string fileName, const std::string GroupPath)
+  H5RandomReader(const std::string& file_name, const std::string& group_path)
       throw (InvalidFileException);
   ~H5RandomReader();
   FrameData getFrame(unsigned long step) const;

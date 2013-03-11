@@ -5,8 +5,9 @@
 #include <iostream>
 #include <ctime>
 #include <string>
-#include <avreader/avreaderh5.h>
+#include <avreader/avreader.h>
 #include <boost/program_options.hpp>
+#include <boost/scoped_ptr.hpp>
 
 namespace po = boost::program_options;
 using namespace av;
@@ -317,9 +318,10 @@ int main(int argc, char **argv )
 
     domCOLLADA *root = (domCOLLADA*)dae->open(scene_file);
 
-    H5RandomReader myReader(hdf5_file, hdf5_group);
+    boost::scoped_ptr<RandomReader> myReader(MakeRandomReader(hdf5_file,
+                                                              hdf5_group));
 
-    FrameData fd = myReader.getFrame(0);
+    FrameData fd = myReader->getFrame(0);
     std::map <std::string, Matrix >::iterator it;
     for (it = fd.matrices.begin(); it != fd.matrices.end(); ++it){
         elements.push_back(std::string(it->first));
@@ -332,21 +334,21 @@ int main(int argc, char **argv )
         lib_anim = (domLibrary_animations*)root->add("library_animations");
     }
 
-    //printf("Found %i steps...\n", (int)myReader.getNbSteps());
+    //printf("Found %i steps...\n", (int)myReader->getNbSteps());
 
     for (int j=0; j<elements.size(); j++){
         AnimationExporter *matrix = new AnimationExporter(lib_anim, 16, elements[j].c_str(), "matrix");
 
-        for (int i=0; i<myReader.getNbSteps(); i++){
+        for (int i=0; i<myReader->getNbSteps(); i++){
             //printf("Step %i\n", i);
-            fd = myReader.getFrame(i);
+            fd = myReader->getFrame(i);
 
             std::map <std::string, Matrix >::iterator it;
             for (it = fd.matrices.begin(); it != fd.matrices.end(); ++it){
                 if (elements[j] == (it->first).c_str()) {
                     //std::cout << "Key : " << it->first << std::endl;
                     //td::cout << ax << "\t" << ay << "\t" << az << std::endl;
-                    matrix->add(myReader.getTime(i),
+                    matrix->add(myReader->getTime(i),
                         it->second[0 + 0*4], it->second[1 + 0*4], it->second[2 + 0*4], it->second[3 + 0*4],
                         it->second[0 + 1*4], it->second[1 + 1*4], it->second[2 + 1*4], it->second[3 + 1*4],
                         it->second[0 + 2*4], it->second[1 + 2*4], it->second[2 + 2*4], it->second[3 + 2*4],

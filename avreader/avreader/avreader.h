@@ -2,6 +2,7 @@
 #define AVREADER_H
 #include <iostream>
 #include <map>
+#include <stdexcept>
 
 namespace logging {
 static const bool debug = true;
@@ -64,7 +65,9 @@ std::ostream& operator<< (std::ostream& os, const FrameData fd);
 class RandomReader {
 public:
   virtual ~RandomReader() {};
+  virtual unsigned long getNbSteps() const = 0;
   virtual FrameData getFrame(unsigned long step) const = 0;
+  virtual double getTime(unsigned long step) = 0;
 };
 
 class LastReader {
@@ -74,5 +77,15 @@ public:
   virtual void stop() = 0;
   virtual FrameData getLatestFrame() = 0;
 };
+
+class InvalidFileException : public std::runtime_error {
+public:
+  InvalidFileException(): std::runtime_error("Invalid scene file") {};
+  InvalidFileException(const std::string& msg): std::runtime_error(msg) {};
+};
+
+RandomReader* MakeRandomReader(const std::string& file_name,
+                               const std::string& group_path)
+    throw (InvalidFileException);
 }
 #endif

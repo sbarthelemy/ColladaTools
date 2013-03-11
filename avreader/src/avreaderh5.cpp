@@ -1,19 +1,19 @@
-
-#include <avreader/avreaderh5.h>
+#include "avreaderh5.h"
 #include <H5Cpp.h>
 #include <vector>
 #include <iostream>
 
 
 namespace av {
+
 herr_t iterInGroup(hid_t lid, const char *name, const H5L_info_t *linfo, void *vectorOfObject) {
 std::vector< std::string > *VObj =  (std::vector< std::string > *) vectorOfObject;
 VObj->push_back( name );
 return 0;
-};
+}
 
-
-H5RandomReader::H5RandomReader(const std::string fileName, const std::string groupPath) throw (InvalidFileException) {
+H5RandomReader::H5RandomReader(const std::string& fileName,
+                               const std::string& groupPath) throw (InvalidFileException) {
 
   try {
     file.openFile(fileName, H5F_ACC_RDONLY);}
@@ -101,7 +101,7 @@ H5RandomReader::H5RandomReader(const std::string fileName, const std::string gro
       dSet.close();
     }
   }
-};
+}
 
 H5RandomReader::~H5RandomReader() {
   std::map< std::string, H5::DataSet > ::iterator im;
@@ -119,7 +119,7 @@ H5RandomReader::~H5RandomReader() {
   file.close();
 
   delete(timedata);
-};
+}
 
 FrameData H5RandomReader::getFrame(unsigned long step) const {
   FrameData fData;
@@ -166,7 +166,7 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     fData.wrenches[im->first] = Wrench(buff);
   }
   return fData;
-};
+}
 
 H5LastReader::H5LastReader(const std::string fileName, const std::string groupPath) :
     lastStep(0),
@@ -179,5 +179,12 @@ FrameData H5LastReader::getLatestFrame() {
     lastStep = 0;
   }
   return fData;
-};
+}
+
+RandomReader* MakeRandomReader(const std::string& file_name,
+                               const std::string& group_path)
+    throw (InvalidFileException) {
+  return new H5RandomReader(file_name, group_path);
+}
+
 }
