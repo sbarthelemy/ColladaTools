@@ -9,10 +9,10 @@ Matrix::Matrix() {
     data[i] = 0.;
 }
 
-Matrix::Matrix (double v0, double v1, double v2, double v3,
-              double v4, double v5, double v6, double v7,
-              double v8, double v9, double v10, double v11,
-              double v12, double v13, double v14, double v15) {
+Matrix::Matrix(double v0, double v1, double v2, double v3,
+               double v4, double v5, double v6, double v7,
+               double v8, double v9, double v10, double v11,
+               double v12, double v13, double v14, double v15) {
   data[0] = v0; data[1] = v1; data[2] = v2; data[3] = v3;
   data[4] = v4; data[5] = v5; data[6] = v6; data[7] = v7;
   data[8] = v8; data[9] = v9; data[10] = v10; data[11] = v11;
@@ -25,17 +25,17 @@ Matrix::Matrix (const double val[16])
     data[i] = val[i];
 }
 
-double Matrix::operator[] (const std::size_t index) const {
+double Matrix::operator[](const std::size_t index) const {
   assert (0 <= index);
   assert (index < 16);
   return data[index];
 }
 
-std::ostream& operator<<(std::ostream& os, Matrix m) {
-  return os<<m[0]<<" "<<m[1]<<" "<<m[2]<<" "<<m[3]<<std::endl
-           <<m[4]<<" "<<m[5]<<" "<<m[6]<<" "<<m[7]<<std::endl
-           <<m[8]<<" "<<m[9]<<" "<<m[10]<<" "<<m[11]<<std::endl
-           <<m[12]<<" "<<m[13]<<" "<<m[14]<<" "<<m[15]<<std::endl;
+std::ostream& operator<<(std::ostream& os, const Matrix& m) {
+  return os << m[0] << " " <<m[1] << " " << m[2] << " " << m[3] << "\n"
+            << m[4] << " " <<m[5] << " " << m[6] << " " << m[7] << "\n"
+            << m[8] << " " <<m[9] << " " << m[10] << " " << m[11] << "\n"
+            << m[12] << " " <<m[13] << " " << m[14] << " " << m[15] << "\n";
 }
 
 Translate::Translate() {
@@ -46,22 +46,22 @@ Translate::Translate(double v0, double v1, double v2) {
   data[0] = v0; data[1] = v1; data[2] = v2;
 }
 
-Translate::Translate (const double val[3]) {
+Translate::Translate(const double val[3]) {
   for (int i=0; i<3; i++)
     data[i] = val[i];
 }
 
-double Translate::operator[] (const std::size_t index) const {
+double Translate::operator[](const std::size_t index) const {
   assert (0 <= index);
   assert (index < 3);
   return data[index];
 }
 
-std::ostream& operator<<(std::ostream& os, Translate t) {
+std::ostream& operator<<(std::ostream& os, const Translate& t) {
   return os<<t[0]<<" "<<t[1]<<" "<<t[2]<<std::endl;
 }
 
-Translate::operator Matrix () const {
+Translate::operator Matrix() const {
   return Matrix(1., 0., 0., data[0],\
                 0., 1., 0., data[1],\
                 0., 0., 1., data[2],\
@@ -78,36 +78,36 @@ Wrench::Wrench(const double val[6]) {
     data[i] = val[i];
 }
 
-const double& Wrench::operator[] (const std::size_t index) {
+const double& Wrench::operator[](const std::size_t index) {
   assert (0 <= index);
   assert (index < 6);
   return data[index];
 }
 
-std::ostream& operator<<(std::ostream& os, Wrench w) {
-  return os<<"display wrench not impremented yet!!"<<std::endl;
+std::ostream& operator<<(std::ostream& os, const Wrench& w) {
+  return os << "display wrench not impremented yet!!" << std::endl;
 }
 
-std::ostream& operator<<(std::ostream& os, FrameData fd) {
+std::ostream& operator<<(std::ostream& os, const FrameData& fd) {
 
-  os<<"==================================================="<<std::endl;
-  os<<"                 Data of Frame "<<fd.step<<std::endl;
-  os<<"==================================================="<<std::endl;
+  os << "===================================================\n"
+     << "                 Data of Frame " << fd.step << "\n"
+     << "===================================================\n";
 
-  std::map < std::string, Matrix > ::iterator im;
-  for ( im = fd.matrices.begin(); im !=fd.matrices.end(); im++) {
-    os<<(*im).first<<" (matrix):"<<std::endl;
-    os<<(*im).second<<std::endl;
+  std::map<std::string, Matrix> ::const_iterator im;
+  for (im = fd.matrices.begin(); im !=fd.matrices.end(); ++im) {
+    os << (*im).first << " (matrix):\n"
+       << (*im).second << "\n";
   }
-  std::map < std::string, Translate > ::iterator it;
-  for ( it = fd.translates.begin(); it !=fd.translates.end(); it++) {
-    os<<(*it).first<<" (translate):"<<std::endl;
-    os<<(*it).second<<std::endl;
+  std::map<std::string, Translate>::const_iterator it;
+  for ( it = fd.translates.begin(); it !=fd.translates.end(); ++it) {
+    os << (*it).first << " (translate):\n"
+       << (*it).second << "\n";
   }
-  std::map < std::string, Wrench > ::iterator iw;
-  for ( iw = fd.wrenches.begin(); iw !=fd.wrenches.end(); iw++) {
-    os<<(*iw).first<<" (wrench):"<<std::endl;
-    os<<(*iw).second<<std::endl;
+  std::map<std::string, Wrench>::const_iterator iw;
+  for ( iw = fd.wrenches.begin(); iw !=fd.wrenches.end(); ++iw) {
+    os << (*iw).first << " (wrench):\n"
+       << (*iw).second << "\n";
   }
   return os;
 }
