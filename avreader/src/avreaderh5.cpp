@@ -1,6 +1,6 @@
 
-#include "avreaderh5.h"
-#include "H5Cpp.h"
+#include <avreader/avreaderh5.h>
+#include <H5Cpp.h>
 #include <vector>
 #include <iostream>
 

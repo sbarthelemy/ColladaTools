@@ -1,0 +1,18 @@
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${HDF5_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIR}
+)
+add_library(
+    avreader
+    STATIC
+    avreader/avreader.h
+    avreader/avreaderh5.h
+    src/avreader.cpp
+    src/avreaderh5.cpp
+)
+target_link_libraries(
+    avreader
+    ${HDF5_LIBRARIES}
+    ${ZLIB_LIBRARIES}
+)

@@ -11,9 +11,9 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "H5Cpp.h"
+#include <H5Cpp.h>
 #include <stdexcept>
-#include "avreader.h"
+#include <avreader/avreader.h>
 
 namespace av {
     class InvalidFileException : public std::runtime_error {

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <ctime>
 #include <string>
-#include "avreaderh5.h"
+#include <avreader/avreaderh5.h>
 #include <boost/program_options.hpp>
 
 namespace po = boost::program_options;

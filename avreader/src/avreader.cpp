@@ -1,4 +1,4 @@
-#include "avreader.h"
+#include <avreader/avreader.h>
 #include <sstream>
 #include <map>
 #include <assert.h>

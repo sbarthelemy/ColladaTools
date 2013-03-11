@@ -48,35 +48,19 @@ if (COLLADA_FOUND)
     ENDIF()
 endif (COLLADA_FOUND)
 
+
 # build h5toanim
-
-include_directories(${HDF5_INCLUDE_DIRS})
-add_library(
-    avreader
-    STATIC
-    avreader.cpp
-)
-add_library(
-    avreaderh5
-    STATIC
-    avreaderh5.cpp
-)
-
-target_link_libraries(
-    avreaderh5
-    avreader
-    ${HDF5_LIBRARIES}
-    ${ZLIB_LIBRARIES}
-)
-
 include_directories(
-    ${Boost_INCLUDE_DIR}
+    ${HDF5_INCLUDE_DIRS}
+    ${ColladaTools_SOURCE_DIR}/avreader
 )
 include_directories(
     ${COLLADA_INCLUDE_DIR}
     ${COLLADA_INCLUDE_DIR}/1.4
 )
-
+include_directories(
+    ${Boost_INCLUDE_DIR}
+)
 add_executable(
     h5toanim
     h5toAnim.cpp
@@ -84,7 +68,8 @@ add_executable(
 target_link_libraries(
     h5toanim
     avreader
-    avreaderh5
+    ${HDF5_LIBRARIES}
+    ${ZLIB_LIBRARIES}
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_PROGRAM_OPTIONS_LIBRARY}
@@ -92,7 +77,6 @@ target_link_libraries(
 )
 
 # build dae filter
-
 add_executable(
     daefilter
     main.cpp
@@ -105,7 +89,6 @@ target_link_libraries(
 )
 
 # install
-
 install(
     TARGETS h5toanim daefilter
     RUNTIME

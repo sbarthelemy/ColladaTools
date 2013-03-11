@@ -8,6 +8,7 @@ set(LIBRARY_OUTPUT_PATH ${ColladaTools_BINARY_DIR}/lib)
 
 include(InstallRequiredSystemLibraries)
 
+add_subdirectory(avreader)
 add_subdirectory(src)
 
 # Automated testing
