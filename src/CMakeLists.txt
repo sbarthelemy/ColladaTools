@@ -63,7 +63,7 @@ include_directories(
 )
 add_executable(
     h5toanim
-    h5toAnim.cpp
+    h5toanim.cpp
 )
 target_link_libraries(
     h5toanim
@@ -79,7 +79,7 @@ target_link_libraries(
 # build dae filter
 add_executable(
     daefilter
-    main.cpp
+    daefilter.cpp
 )
 target_link_libraries(
     daefilter
