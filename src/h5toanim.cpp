@@ -285,29 +285,35 @@ int main(int argc, char **argv )
   std::string hdf5_file; // input hdf5 filename
   std::string hdf5_group;
   std::string file_out; // output collada animation filename
-  po::options_description desc("Allowed options");
+  po::options_description desc(
+      "Usage: h5toanim [options] hdf5-file scene-file output-file\n\n"
+      "Allowed options");
   desc.add_options()
       ("help", "produce help message")
-      ("hdf5-file", po::value<std::string>(&hdf5_file),
+      ("hdf5-file", po::value<std::string>(&hdf5_file)->required(),
        "HDF5 input data file")
       ("hdf5-group", po::value<std::string>(&hdf5_group)->default_value("/"),
        "subgroup within the HDF5 file")
-      ("scene-file", po::value<std::string>(&scene_file),
+      ("scene-file", po::value<std::string>(&scene_file)->required(),
        "collada input scene file")
       ("output-file,o",
        po::value<std::string>(&file_out)->default_value("out.dae"),
-       "output file")
+       "collada output animation file")
       ;
-  po::positional_options_description p;
-  p.add("hdf5-file", 1);
-  p.add("scene-file", 1);
-  p.add("output-file", 1);
+  po::positional_options_description pos;
+  pos.add("hdf5-file", 1);
+  pos.add("scene-file", 1);
+  pos.add("output-file", 1);
   po::variables_map vm;
-  po::store(po::command_line_parser(argc, argv).
-            options(desc).positional(p).run(), vm);
-  po::notify(vm);
-
-  if (vm.count("help")) {
+  try {
+    po::store(po::command_line_parser(argc, argv).
+              options(desc).positional(pos).run(), vm);
+    if (vm.count("help")) {
+      std::cout << desc << "\n";
+      return 0;
+    }
+    po::notify(vm);
+  } catch (boost::program_options::error) {
     std::cout << desc << "\n";
     return 1;
   }
