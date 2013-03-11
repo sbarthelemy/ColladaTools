@@ -13,12 +13,14 @@ return 0;
 }
 
 H5RandomReader::H5RandomReader(const std::string& fileName,
-                               const std::string& groupPath) throw (InvalidFileException) {
+                               const std::string& groupPath) throw (InvalidFileException):
+    nSteps(0),
+    timedata(NULL) {
 
   try {
     file.openFile(fileName, H5F_ACC_RDONLY);}
   catch ( H5::FileIException ) {
-    throw InvalidFileException("Cannot acces file");}
+    throw InvalidFileException("Cannot access file");}
   try {
     group = file.openGroup(groupPath);}
   catch ( H5::GroupIException ) {
@@ -38,7 +40,7 @@ H5RandomReader::H5RandomReader(const std::string& fileName,
 
     H5::DataSpace dSpace = timeline.getSpace();
 
-    for (int i=0; i<nSteps; i++){
+    for (int i=0; i<nSteps; ++i){
       hsize_t count[1] = {1};
       hsize_t offset[1] = {i};
       dSpace.selectHyperslab(H5S_SELECT_SET, count, offset);
@@ -66,7 +68,7 @@ H5RandomReader::H5RandomReader(const std::string& fileName,
   try {
     transformsGroup = group.openGroup("transforms");
   }
-  catch ( H5::GroupIException ) {
+  catch (H5::GroupIException) {
     file.close();
     throw InvalidFileException("Cannot access transformsGroup");
   }
@@ -118,7 +120,7 @@ H5RandomReader::~H5RandomReader() {
   group.close();
   file.close();
 
-  delete(timedata);
+  delete[](timedata);
 }
 
 FrameData H5RandomReader::getFrame(unsigned long step) const {
