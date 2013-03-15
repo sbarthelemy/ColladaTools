@@ -39,6 +39,45 @@ std::ostream& operator<<(std::ostream& os, const TransformMatrix& m) {
             << m[12] << " " <<m[13] << " " << m[14] << " " << m[15] << "\n";
 }
 
+RigidTransformMatrix::RigidTransformMatrix() {
+  for (std::size_t i=0; i<12; i++)
+    data_[i] = 0.;
+}
+
+RigidTransformMatrix::RigidTransformMatrix(
+      double v0, double v1, double v2, double v3,
+      double v4, double v5, double v6, double v7,
+      double v8, double v9, double v10, double v11) {
+  data_[0] = v0; data_[1] = v1; data_[2] = v2; data_[3] = v3;
+  data_[4] = v4; data_[5] = v5; data_[6] = v6; data_[7] = v7;
+  data_[8] = v8; data_[9] = v9; data_[10] = v10; data_[11] = v11;
+}
+
+RigidTransformMatrix::RigidTransformMatrix (const double val[12])
+{
+  for (std::size_t i=0; i<12; i++)
+    data_[i] = val[i];
+}
+
+double RigidTransformMatrix::operator[](const std::size_t index) const {
+  assert (0 <= index);
+  assert (index < 12);
+  return data_[index];
+}
+
+std::ostream& operator<<(std::ostream& os, const RigidTransformMatrix& m) {
+  return os << m[0] << " " <<m[1] << " " << m[2] << " " << m[3] << "\n"
+            << m[4] << " " <<m[5] << " " << m[6] << " " << m[7] << "\n"
+            << m[8] << " " <<m[9] << " " << m[10] << " " << m[11] << "\n";
+}
+
+RigidTransformMatrix::operator TransformMatrix() const {
+  return TransformMatrix(data_[0], data_[1], data_[2], data_[3],
+                         data_[4], data_[5], data_[6], data_[7],
+                         data_[8], data_[9], data_[10], data_[11],
+                         0., 0., 0., 1.);
+}
+
 Translation::Translation() {
   data_[0] = data_[1] = data_[2] = 0.;
 }

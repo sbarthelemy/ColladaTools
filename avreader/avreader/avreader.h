@@ -28,6 +28,20 @@ public:
 
 std::ostream& operator<<(std::ostream& os, const TransformMatrix& m);
 
+class RigidTransformMatrix {
+private:
+  double data_[12];
+public:
+  RigidTransformMatrix();
+  RigidTransformMatrix(double v0, double v1, double v2, double v3,
+                       double v4, double v5, double v6, double v7,
+                       double v8, double v9, double v10, double v11);
+  RigidTransformMatrix(const double val[12]);
+  double operator[](std::size_t index) const;
+  operator TransformMatrix() const;
+};
+
+
 class Translation {
 private:
   double data_[3];
