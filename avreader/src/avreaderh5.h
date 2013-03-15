@@ -30,8 +30,8 @@ private:
   H5::Group group, transformsGroup;
   H5::DataSet timeline;
   double *timedata;
-  std::map<std::string, H5::DataSet >  matrices;
-  std::map<std::string, H5::DataSet >  translates;
+  std::map<std::string, H5::DataSet >  transform_matrices;
+  std::map<std::string, H5::DataSet >  translations;
   std::map<std::string, H5::DataSet >  wrenches;
 };
 

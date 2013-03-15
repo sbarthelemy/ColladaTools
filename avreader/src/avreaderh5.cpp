@@ -95,7 +95,7 @@ H5RandomReader::H5RandomReader(const std::string& fileName,
         dimension_ok = true;
     }
     if (dimension_ok) {
-      matrices[names[i]] = dSet;
+      transform_matrices[names[i]] = dSet;
     } else {
       if (logging::warning){
         std::cerr << "Skipping dataset \"" << names[i] << "\" which has wrong dimensions. I was expecting (" << nSteps << ",4,4).\n";
@@ -107,10 +107,10 @@ H5RandomReader::H5RandomReader(const std::string& fileName,
 
 H5RandomReader::~H5RandomReader() {
   std::map< std::string, H5::DataSet > ::iterator im;
-  for (im = matrices.begin(); im != matrices.end(); im++){
+  for (im = transform_matrices.begin(); im != transform_matrices.end(); im++){
     im->second.close();
   }
-  for (im = translates.begin(); im != translates.end(); im++){
+  for (im = translations.begin(); im != translations.end(); im++){
     im->second.close();
   }
   for (im = wrenches.begin(); im != wrenches.end(); im++){
@@ -125,10 +125,11 @@ H5RandomReader::~H5RandomReader() {
 
 FrameData H5RandomReader::getFrame(unsigned long step) const {
   FrameData fData;
-  for (std::map< std::string, H5::DataSet > ::const_iterator im (matrices.begin());
-       im != matrices.end();
-       im++) {
-    H5::DataSet dSet(im->second);
+  for (std::map<std::string, H5::DataSet>::const_iterator it =
+           transform_matrices.begin();
+       it != transform_matrices.end();
+       ++it) {
+    H5::DataSet dSet(it->second);
     double buff[16];
     H5::DataSpace dSpace(dSet.getSpace());
     hsize_t count[3] = {1, 4, 4};
@@ -137,12 +138,13 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     hsize_t dims[2] = {4, 4};
     H5::DataSpace memSpace(2, dims);
     dSet.read(buff, H5::PredType::NATIVE_DOUBLE, memSpace, dSpace);
-    fData.tranform_matrices[im->first] = TransformMatrix(buff);
+    fData.tranform_matrices[it->first] = TransformMatrix(buff);
   }
-  for (std::map< std::string, H5::DataSet > ::const_iterator im(translates.begin());
-       im != translates.end();
-       im++) {
-    H5::DataSet dSet(im->second);
+  for (std::map<std::string, H5::DataSet>::const_iterator it =
+           translations.begin();
+       it != translations.end();
+       ++it) {
+    H5::DataSet dSet(it->second);
     double buff[3];
     H5::DataSpace dSpace(dSet.getSpace());
     hsize_t count[2] = {1, 3};
@@ -151,12 +153,13 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     hsize_t dims[1] = {3};
     H5::DataSpace memSpace(1, dims);
     dSet.read(buff, H5::PredType::NATIVE_DOUBLE, memSpace, dSpace);
-    fData.translations[im->first] = Translation(buff);
+    fData.translations[it->first] = Translation(buff);
   }
-  for (std::map< std::string, H5::DataSet > ::const_iterator im(wrenches.begin());
-       im != wrenches.end();
-       im++) {
-    H5::DataSet dSet(im->second);
+  for (std::map<std::string, H5::DataSet>::const_iterator it =
+           wrenches.begin();
+       it != wrenches.end();
+       ++it) {
+    H5::DataSet dSet(it->second);
     double buff[6];
     H5::DataSpace dSpace(dSet.getSpace());
     hsize_t count[2] = {1, 6};

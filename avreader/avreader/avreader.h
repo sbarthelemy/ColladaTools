@@ -70,6 +70,7 @@ class FrameData {
 public:
   unsigned long step;
   std::map <std::string, TransformMatrix> tranform_matrices;
+  std::map <std::string, RigidTransformMatrix> rigid_tranform_matrices;
   std::map <std::string, Translation> translations;
   std::map <std::string, Wrench> wrenches;
 };

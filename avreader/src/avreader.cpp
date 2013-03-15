@@ -134,22 +134,32 @@ std::ostream& operator<<(std::ostream& os, const FrameData& fd) {
      << "                 Data of Frame " << fd.step << "\n"
      << "===================================================\n";
 
-  std::map<std::string, TransformMatrix> ::const_iterator im;
-  for (im = fd.tranform_matrices.begin();
-       im !=fd.tranform_matrices.end();
-       ++im) {
-    os << (*im).first << " (tranform matrix):\n"
-       << (*im).second << "\n";
+  for (std::map<std::string, TransformMatrix> ::const_iterator it =
+           fd.tranform_matrices.begin();
+       it != fd.tranform_matrices.end();
+       ++it) {
+    os << it->first << " (tranform matrix):\n"
+       << it->second << "\n";
   }
-  std::map<std::string, Translation>::const_iterator it;
-  for (it = fd.translations.begin(); it !=fd.translations.end(); ++it) {
-    os << (*it).first << " (translation):\n"
-       << (*it).second << "\n";
+  for (std::map<std::string, RigidTransformMatrix> ::const_iterator it =
+           fd.rigid_tranform_matrices.begin();
+       it != fd.rigid_tranform_matrices.end();
+       ++it) {
+    os << it->first << " (rigid tranform matrix):\n"
+       << it->second << "\n";
   }
-  std::map<std::string, Wrench>::const_iterator iw;
-  for (iw = fd.wrenches.begin(); iw !=fd.wrenches.end(); ++iw) {
-    os << (*iw).first << " (wrench):\n"
-       << (*iw).second << "\n";
+  for (std::map<std::string, Translation>::const_iterator it =
+           fd.translations.begin();
+       it != fd.translations.end();
+       ++it) {
+    os << it->first << " (translation):\n"
+       << it->second << "\n";
+  }
+  for (std::map<std::string, Wrench>::const_iterator it = fd.wrenches.begin();
+       it != fd.wrenches.end();
+       ++it) {
+    os << it->first << " (wrench):\n"
+       << it->second << "\n";
   }
   return os;
 }
