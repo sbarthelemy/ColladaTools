@@ -13,6 +13,13 @@ herr_t IterInGroup(hid_t lid, const char *name, const H5L_info_t *linfo,
   return 0;
 }
 
+enum TransformType {
+  TRANSFORM_MATRIX = 0,
+  RIGID_TRANSFORM_MATRIX,
+  TRANSLATION,
+  INVALID
+};
+
 H5RandomReader::H5RandomReader(const std::string& file_name,
                                const std::string& group_path)
     throw (InvalidFileException):
@@ -57,59 +64,63 @@ H5RandomReader::H5RandomReader(const std::string& file_name,
   }
 
   // extract objects names in the xpGroup
-
+  H5::Group transforms;
   try {
-    transforms_ = root_.openGroup("transforms");
+    transforms = root_.openGroup("transforms");
   }
   catch (H5::GroupIException) {
     file_.close();
     throw InvalidFileException("Cannot access transformsGroup");
   }
 
-  // add exc
+  // get names in the transforms group
   std::vector<std::string>  names;
-  H5Literate(transforms_.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, IterInGroup, &names);
-  /*
-   * extract data from object in xpGroup
-   * these data can be of 3 types: matrix, translate or wrench
-   * each data are saved in related map
-   */
-  for (unsigned int i=0; i<names.size(); i++){ //TODO: skip timeline
-    H5::DataSet dSet = transforms_.openDataSet(names[i]);
+  H5Literate(transforms.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, IterInGroup,
+             &names);
+  // then check dataset dimensions to infer the type of transform
+  for (unsigned int i=0; i<names.size(); ++i) {
+    H5::DataSet dSet = transforms.openDataSet(names[i]);
     H5::DataSpace dSpace = dSet.getSpace();
-    bool dimension_ok = false;
-    if (dSpace.getSimpleExtentNdims()==3) {
-      hsize_t dims[3];
-      dSpace.getSimpleExtentDims (dims);
-      if (dims[0] == n_steps_ && dims[1] == 4 && dims[2] == 4)
-        dimension_ok = true;
+    TransformType type = INVALID;
+    switch (dSpace.getSimpleExtentNdims()) {
+      case 3:
+        hsize_t dims[3];
+        dSpace.getSimpleExtentDims (dims);
+        if (dims[0] == n_steps_ && dims[2] == 4) {
+          if (dims[1] == 4)
+            type = TRANSFORM_MATRIX;
+          else if (dims[1] == 3)
+            type = RIGID_TRANSFORM_MATRIX;
+        }
+      break;
+    case 2:
+      if (dims[0] == n_steps_ && dims[1] == 3)
+        type = TRANSLATION;
+      break;
     }
-    if (dimension_ok) {
-      transform_matrices_[names[i]] = dSet;
-    } else {
-      if (logging::warning){
-        std::cerr << "Skipping dataset \"" << names[i] << "\" which has wrong dimensions. I was expecting (" << n_steps_ << ",4,4).\n";
-      }
-      dSet.close();
+
+    switch (type) {
+      case TRANSFORM_MATRIX:
+        transform_matrices_[names[i]] = dSet;
+        break;
+      case RIGID_TRANSFORM_MATRIX:
+        rigid_transform_matrices_[names[i]] = dSet;
+        break;
+      case TRANSLATION:
+        translations_[names[i]] = dSet;
+        break;
+      case INVALID:
+        if (logging::warning) {
+          std::cerr << "Skipping dataset \"" << names[i]
+                    << "\" which has wrong dimensions\n";
+        }
+        dSet.close();
+        break;
     }
   }
 }
 
 H5RandomReader::~H5RandomReader() {
-  std::map< std::string, H5::DataSet > ::iterator im;
-  for (im = transform_matrices_.begin(); im != transform_matrices_.end(); im++){
-    im->second.close();
-  }
-  for (im = translations_.begin(); im != translations_.end(); im++){
-    im->second.close();
-  }
-  for (im = wrenches_.begin(); im != wrenches_.end(); im++){
-    im->second.close();
-  }
-  timeline_.close();
-  root_.close();
-  file_.close();
-
   delete[](timedata_);
 }
 
@@ -129,6 +140,21 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     H5::DataSpace memSpace(2, dims);
     dSet.read(buff, H5::PredType::NATIVE_DOUBLE, memSpace, dSpace);
     fData.tranform_matrices[it->first] = TransformMatrix(buff);
+  }
+  for (std::map<std::string, H5::DataSet>::const_iterator it =
+           rigid_transform_matrices_.begin();
+       it != rigid_transform_matrices_.end();
+       ++it) {
+    H5::DataSet dSet(it->second);
+    double buff[12];
+    H5::DataSpace dSpace(dSet.getSpace());
+    hsize_t count[3] = {1, 3, 4};
+    hsize_t offset[3] = {step, 0, 0};
+    dSpace.selectHyperslab(H5S_SELECT_SET, count, offset);
+    hsize_t dims[2] = {3, 4};
+    H5::DataSpace memSpace(2, dims);
+    dSet.read(buff, H5::PredType::NATIVE_DOUBLE, memSpace, dSpace);
+    fData.rigid_tranform_matrices[it->first] = RigidTransformMatrix(buff);
   }
   for (std::map<std::string, H5::DataSet>::const_iterator it =
            translations_.begin();

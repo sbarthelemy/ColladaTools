@@ -28,10 +28,10 @@ private:
   unsigned long n_steps_;
   H5::H5File file_;
   H5::Group root_;
-  H5::Group transforms_;
   H5::DataSet timeline_;
   double *timedata_;
   std::map<std::string, H5::DataSet> transform_matrices_;
+  std::map<std::string, H5::DataSet> rigid_transform_matrices_;
   std::map<std::string, H5::DataSet> translations_;
   std::map<std::string, H5::DataSet> wrenches_;
 };
