@@ -6,99 +6,89 @@
 
 namespace av {
 
-herr_t iterInGroup(hid_t lid, const char *name, const H5L_info_t *linfo, void *vectorOfObject) {
-std::vector< std::string > *VObj =  (std::vector< std::string > *) vectorOfObject;
-VObj->push_back( name );
-return 0;
+herr_t IterInGroup(hid_t lid, const char *name, const H5L_info_t *linfo,
+                   void *vectorOfObject) {
+  std::vector<std::string> *VObj = (std::vector<std::string> *) vectorOfObject;
+  VObj->push_back( name );
+  return 0;
 }
 
-H5RandomReader::H5RandomReader(const std::string& fileName,
-                               const std::string& groupPath) throw (InvalidFileException):
-    nSteps(0),
-    timedata(NULL) {
+H5RandomReader::H5RandomReader(const std::string& file_name,
+                               const std::string& group_path)
+    throw (InvalidFileException):
+    n_steps_(0),
+    timedata_(NULL) {
 
   try {
-    file.openFile(fileName, H5F_ACC_RDONLY);}
+    file_.openFile(file_name, H5F_ACC_RDONLY);}
   catch ( H5::FileIException ) {
     throw InvalidFileException("Cannot access file");}
   try {
-    group = file.openGroup(groupPath);}
+    root_ = file_.openGroup(group_path);}
   catch ( H5::GroupIException ) {
-    file.close();
+    file_.close();
     throw InvalidFileException("Cannot access group");
   }
-  /*
-   * extract timeline. This is also necessary to get the nbSteps.
-   */
 
+  // extract timeline. This is also necessary to get the nbSteps.
   try {
-    timeline = group.openDataSet("timeline");
-    nSteps = timeline.getSpace().getSimpleExtentNpoints();
+    timeline_ = root_.openDataSet("timeline");
+    n_steps_ = timeline_.getSpace().getSimpleExtentNpoints();
 
     // Recuperer les donnees de la timeline
-    timedata = new double[nSteps];
+    timedata_ = new double[n_steps_];
 
-    H5::DataSpace dSpace = timeline.getSpace();
+    H5::DataSpace dSpace = timeline_.getSpace();
 
-    for (int i=0; i<nSteps; ++i){
+    for (int i=0; i<n_steps_; ++i){
       hsize_t count[1] = {1};
       hsize_t offset[1] = {i};
       dSpace.selectHyperslab(H5S_SELECT_SET, count, offset);
       hsize_t dims[1] = {1};
       H5::DataSpace memSpace(1, dims);
-      timeline.read(&timedata[i], H5::PredType::NATIVE_DOUBLE, memSpace, dSpace);
+      timeline_.read(&timedata_[i], H5::PredType::NATIVE_DOUBLE, memSpace,
+                     dSpace);
     }
   }
-  catch ( H5::DataSetIException error ) {
-    //error.printError();
-    group.close();
-    file.close();
+  catch (H5::DataSetIException) {
+    root_.close();
+    file_.close();
     throw InvalidFileException("Cannot access timeline dataset");
   }
 
-
-  if (logging::info)
-    std::cerr << "Opened group \"" <<  fileName << groupPath << "\" which has " << nSteps << " steps.\n";
-
-  /*
-   * extract objects names in the xpGroup
-   */
-  printf("Transform time\n");
+  // extract objects names in the xpGroup
 
   try {
-    transformsGroup = group.openGroup("transforms");
+    transforms_ = root_.openGroup("transforms");
   }
   catch (H5::GroupIException) {
-    file.close();
+    file_.close();
     throw InvalidFileException("Cannot access transformsGroup");
   }
 
-
-  printf("Ok\n");
-
   // add exc
   std::vector<std::string>  names;
-  H5Literate(transformsGroup.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, iterInGroup, &names);
+  H5Literate(transforms_.getId(), H5_INDEX_NAME, H5_ITER_INC, NULL, IterInGroup, &names);
   /*
    * extract data from object in xpGroup
    * these data can be of 3 types: matrix, translate or wrench
    * each data are saved in related map
    */
   for (unsigned int i=0; i<names.size(); i++){ //TODO: skip timeline
-    H5::DataSet dSet = transformsGroup.openDataSet(names[i]);
+    H5::DataSet dSet = transforms_.openDataSet(names[i]);
     H5::DataSpace dSpace = dSet.getSpace();
     bool dimension_ok = false;
     if (dSpace.getSimpleExtentNdims()==3) {
       hsize_t dims[3];
       dSpace.getSimpleExtentDims (dims);
-      if (dims[0] == nSteps && dims[1] == 4 && dims[2] == 4)
+      if (dims[0] == n_steps_ && dims[1] == 4 && dims[2] == 4)
         dimension_ok = true;
     }
     if (dimension_ok) {
-      transform_matrices[names[i]] = dSet;
+      transform_matrices_[names[i]] = dSet;
     } else {
       if (logging::warning){
-        std::cerr << "Skipping dataset \"" << names[i] << "\" which has wrong dimensions. I was expecting (" << nSteps << ",4,4).\n";
+        std::cerr << "Skipping dataset \"" << names[i] << "\" which has wrong dimensions. I was expecting (" << n_steps_ << ",4,4).\n";
       }
       dSet.close();
     }
@@ -107,27 +97,27 @@ H5RandomReader::H5RandomReader(const std::string& fileName,
 
 H5RandomReader::~H5RandomReader() {
   std::map< std::string, H5::DataSet > ::iterator im;
-  for (im = transform_matrices.begin(); im != transform_matrices.end(); im++){
+  for (im = transform_matrices_.begin(); im != transform_matrices_.end(); im++){
     im->second.close();
   }
-  for (im = translations.begin(); im != translations.end(); im++){
+  for (im = translations_.begin(); im != translations_.end(); im++){
     im->second.close();
   }
-  for (im = wrenches.begin(); im != wrenches.end(); im++){
+  for (im = wrenches_.begin(); im != wrenches_.end(); im++){
     im->second.close();
   }
-  timeline.close();
-  group.close();
-  file.close();
+  timeline_.close();
+  root_.close();
+  file_.close();
 
-  delete[](timedata);
+  delete[](timedata_);
 }
 
 FrameData H5RandomReader::getFrame(unsigned long step) const {
   FrameData fData;
   for (std::map<std::string, H5::DataSet>::const_iterator it =
-           transform_matrices.begin();
-       it != transform_matrices.end();
+           transform_matrices_.begin();
+       it != transform_matrices_.end();
        ++it) {
     H5::DataSet dSet(it->second);
     double buff[16];
@@ -141,8 +131,8 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     fData.tranform_matrices[it->first] = TransformMatrix(buff);
   }
   for (std::map<std::string, H5::DataSet>::const_iterator it =
-           translations.begin();
-       it != translations.end();
+           translations_.begin();
+       it != translations_.end();
        ++it) {
     H5::DataSet dSet(it->second);
     double buff[3];
@@ -156,8 +146,8 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     fData.translations[it->first] = Translation(buff);
   }
   for (std::map<std::string, H5::DataSet>::const_iterator it =
-           wrenches.begin();
-       it != wrenches.end();
+           wrenches_.begin();
+       it != wrenches_.end();
        ++it) {
     H5::DataSet dSet(it->second);
     double buff[6];
@@ -168,20 +158,21 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     hsize_t dims[1] = {6};
     H5::DataSpace memSpace(1, dims);
     dSet.read(buff, H5::PredType::NATIVE_DOUBLE, memSpace, dSpace);
-    fData.wrenches[im->first] = Wrench(buff);
+    fData.wrenches[it->first] = Wrench(buff);
   }
   return fData;
 }
 
-H5LastReader::H5LastReader(const std::string fileName, const std::string groupPath) :
-    lastStep(0),
-    reader(fileName, groupPath) {};
+H5LastReader::H5LastReader(const std::string& file_name,
+                           const std::string& group_path) :
+    last_step_(0),
+    reader_(file_name, group_path) {}
 
 FrameData H5LastReader::getLatestFrame() {
-  FrameData fData = reader.getFrame(lastStep);
-  lastStep++;
-  if (lastStep==reader.getNbSteps()) {
-    lastStep = 0;
+  FrameData fData = reader_.getFrame(last_step_);
+  ++last_step_;
+  if (last_step_==reader_.getNbSteps()) {
+    last_step_ = 0;
   }
   return fData;
 }
