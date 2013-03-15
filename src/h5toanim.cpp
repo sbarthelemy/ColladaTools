@@ -328,8 +328,8 @@ int main(int argc, char **argv )
                                                             hdf5_group));
 
   FrameData fd = myReader->getFrame(0);
-  std::map <std::string, Matrix >::iterator it;
-  for (it = fd.matrices.begin(); it != fd.matrices.end(); ++it) {
+  std::map <std::string, TransformMatrix >::iterator it;
+  for (it = fd.tranform_matrices.begin(); it != fd.tranform_matrices.end(); ++it) {
     elements.push_back(std::string(it->first));
   }
   //printf("Found %i elements... \n", elements.size() );
@@ -349,8 +349,8 @@ int main(int argc, char **argv )
       //printf("Step %i\n", i);
       fd = myReader->getFrame(i);
 
-      std::map <std::string, Matrix >::iterator it;
-      for (it = fd.matrices.begin(); it != fd.matrices.end(); ++it){
+      std::map <std::string, TransformMatrix >::iterator it;
+      for (it = fd.tranform_matrices.begin(); it != fd.tranform_matrices.end(); ++it){
         if (elements[j] == (it->first).c_str()) {
           //std::cout << "Key : " << it->first << std::endl;
           //td::cout << ax << "\t" << ay << "\t" << az << std::endl;

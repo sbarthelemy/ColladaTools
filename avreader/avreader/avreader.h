@@ -13,37 +13,37 @@ static const bool error = true;
 
 namespace av {
 
-class Matrix {
+class TransformMatrix {
 private:
-  double data[16];
+  double data_[16];
 public:
-  Matrix();
-  Matrix(double v0, double v1, double v2, double v3,
-         double v4, double v5, double v6, double v7,
-         double v8, double v9, double v10, double v11,
-         double v12, double v13, double v14, double v15);
-  Matrix(const double val[16]);
+  TransformMatrix();
+  TransformMatrix(double v0, double v1, double v2, double v3,
+                  double v4, double v5, double v6, double v7,
+                  double v8, double v9, double v10, double v11,
+                  double v12, double v13, double v14, double v15);
+  TransformMatrix(const double val[16]);
   double operator[](std::size_t index) const;
 };
 
-std::ostream& operator<<(std::ostream& os, const Matrix& m);
+std::ostream& operator<<(std::ostream& os, const TransformMatrix& m);
 
-class Translate {
+class Translation {
 private:
-  double data[3];
+  double data_[3];
 public:
-  Translate();
-  Translate(double v0, double v1, double v2);
-  Translate(const double val[3]);
+  Translation();
+  Translation(double v0, double v1, double v2);
+  Translation(const double val[3]);
   double operator[](const std::size_t index) const;
-  operator Matrix() const;
+  operator TransformMatrix() const;
 };
 
-std::ostream& operator<< (std::ostream& os, const Translate& t);
+std::ostream& operator<< (std::ostream& os, const Translation& t);
 
 class Wrench {
 private:
-  double data[6];
+  double data_[6];
 public:
   Wrench();
   Wrench(const double val[6]);
@@ -55,8 +55,8 @@ std::ostream& operator<<(std::ostream& os, const Wrench& w);
 class FrameData {
 public:
   unsigned long step;
-  std::map <std::string, Matrix> matrices;
-  std::map <std::string, Translate> translates;
+  std::map <std::string, TransformMatrix> tranform_matrices;
+  std::map <std::string, Translation> translations;
   std::map <std::string, Wrench> wrenches;
 };
 

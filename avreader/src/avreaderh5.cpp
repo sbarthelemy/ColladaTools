@@ -137,7 +137,7 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     hsize_t dims[2] = {4, 4};
     H5::DataSpace memSpace(2, dims);
     dSet.read(buff, H5::PredType::NATIVE_DOUBLE, memSpace, dSpace);
-    fData.matrices[im->first] = Matrix(buff);
+    fData.tranform_matrices[im->first] = TransformMatrix(buff);
   }
   for (std::map< std::string, H5::DataSet > ::const_iterator im(translates.begin());
        im != translates.end();
@@ -151,7 +151,7 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     hsize_t dims[1] = {3};
     H5::DataSpace memSpace(1, dims);
     dSet.read(buff, H5::PredType::NATIVE_DOUBLE, memSpace, dSpace);
-    fData.translates[im->first] = Translate(buff);
+    fData.translations[im->first] = Translation(buff);
   }
   for (std::map< std::string, H5::DataSet > ::const_iterator im(wrenches.begin());
        im != wrenches.end();
