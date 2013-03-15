@@ -154,7 +154,9 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     hsize_t dims[2] = {3, 4};
     H5::DataSpace memSpace(2, dims);
     dSet.read(buff, H5::PredType::NATIVE_DOUBLE, memSpace, dSpace);
-    fData.rigid_tranform_matrices[it->first] = RigidTransformMatrix(buff);
+    // since h5toanim only deals with TransformMatrices, let convert into that
+    //fData.rigid_tranform_matrices[it->first] = RigidTransformMatrix(buff);
+    fData.tranform_matrices[it->first] = TransformMatrix(RigidTransformMatrix(buff));
   }
   for (std::map<std::string, H5::DataSet>::const_iterator it =
            translations_.begin();
@@ -169,7 +171,9 @@ FrameData H5RandomReader::getFrame(unsigned long step) const {
     hsize_t dims[1] = {3};
     H5::DataSpace memSpace(1, dims);
     dSet.read(buff, H5::PredType::NATIVE_DOUBLE, memSpace, dSpace);
-    fData.translations[it->first] = Translation(buff);
+    // since h5toanim only deals with TransformMatrices, let convert into that
+    //fData.translations[it->first] = Translation(buff);
+    fData.tranform_matrices[it->first] = TransformMatrix(Translation(buff));
   }
   for (std::map<std::string, H5::DataSet>::const_iterator it =
            wrenches_.begin();
